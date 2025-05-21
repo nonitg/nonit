@@ -1,0 +1,641 @@
+/* Research page specific styles */
+:root {
+    --research-primary: #6366f1;
+    --research-light: rgba(99, 102, 241, 0.1);
+    --research-dark: #4f46e5;
+}
+
+.active {
+    color: var(--research-primary);
+}
+
+#research-hero {
+    height: 40vh;
+    background-color: var(--research-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 70px;
+}
+
+.page-title {
+    text-align: center;
+}
+
+.page-title h1 {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    color: var(--research-primary);
+}
+
+.title-underline {
+    width: 80px;
+    height: 4px;
+    background-color: var(--research-primary);
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Research Introduction */
+#research-intro {
+    padding: 80px 0;
+}
+
+.research-overview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: start;
+}
+
+.research-text h2 {
+    font-size: 2rem;
+    margin-bottom: 25px;
+    color: var(--primary-color);
+}
+
+.research-text p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    color: var(--text-light);
+}
+
+.research-interests {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.interest-area {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.interest-area:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.interest-icon {
+    min-width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--research-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--research-primary);
+}
+
+.interest-area h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.interest-area p {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* Research Project Sections */
+.research-project-section {
+    padding: 80px 0;
+}
+
+.alt-bg {
+    background-color: var(--card-bg);
+}
+
+/* Parkinson's Project */
+.research-project {
+    margin-top: 50px;
+}
+
+.project-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.project-image {
+    height: 100%;
+    min-height: 300px;
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.project-overview {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.project-highlights {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.highlight-item {
+    background-color: white;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.highlight-label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-bottom: 5px;
+}
+
+.highlight-value {
+    display: block;
+    font-weight: 600;
+    color: var(--research-primary);
+    font-size: 1.05rem;
+}
+
+.project-abstract {
+    background-color: white;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.project-abstract h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.project-abstract p {
+    font-size: 1rem;
+    color: var(--text-light);
+    line-height: 1.7;
+}
+
+.project-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.methodology, .findings, .impact, .recognition {
+    background-color: white;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.project-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--research-primary);
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.project-content h3::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--research-primary);
+    border-radius: 1.5px;
+}
+
+.project-content p {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.project-content ul {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.project-content li {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--research-primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-top: 10px;
+}
+
+.project-link i {
+    margin-left: 5px;
+    font-size: 0.8rem;
+    transition: var(--transition);
+}
+
+.project-link:hover i {
+    transform: translateX(3px);
+}
+
+/* Biotech Experience */
+.biotech-experience {
+    margin-top: 50px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+}
+
+.biotech-header {
+    background-color: var(--research-primary);
+    padding: 25px;
+    color: white;
+}
+
+.biotech-header h3 {
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+}
+
+.biotech-date {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.biotech-content {
+    padding: 30px;
+}
+
+.biotech-description {
+    margin-bottom: 40px;
+}
+
+.biotech-description p {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+.biotech-highlights {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.biotech-highlight {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.highlight-icon {
+    min-width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--research-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--research-primary);
+}
+
+.highlight-text h4 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+}
+
+.highlight-text p {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.biotech-reflection h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.biotech-reflection p {
+    font-size: 1rem;
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.biotech-reflection ul {
+    margin-left: 20px;
+}
+
+.biotech-reflection li {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+/* Scientific Achievements */
+.scientific-achievements {
+    margin-top: 50px;
+}
+
+.achievements-timeline {
+    position: relative;
+}
+
+.achievements-timeline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 100px;
+    width: 2px;
+    background-color: var(--research-primary);
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 150px;
+    margin-bottom: 40px;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-date {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    background-color: var(--research-primary);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.timeline-content {
+    position: relative;
+}
+
+.timeline-content::before {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: -40px;
+    width: 18px;
+    height: 18px;
+    background-color: white;
+    border: 3px solid var(--research-primary);
+    border-radius: 50%;
+}
+
+.achievement-card {
+    background-color: white;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.achievement-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.achievement-card p {
+    font-size: 1rem;
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.achievement-card ul {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.achievement-card li {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.achievement-details {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.achievement-details span {
+    background-color: var(--research-light);
+    color: var(--research-primary);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Academic Interests */
+.academic-content {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.reading-list h3, .research-approach h3 {
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+    color: var(--primary-color);
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.reading-list h3::after, .research-approach h3::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: var(--research-primary);
+    border-radius: 1.5px;
+}
+
+.reading-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    margin-bottom: 20px;
+    transition: var(--transition);
+}
+
+.reading-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.reading-item h4 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+}
+
+.reading-author {
+    font-size: 0.9rem;
+    color: var(--research-primary);
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.reading-description {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.approach-principles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.principle {
+    background-color: white;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+}
+
+.principle:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.principle-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--research-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: var(--research-primary);
+}
+
+.principle h4 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.principle p {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* Media Queries */
+@media screen and (max-width: 1024px) {
+    .research-overview {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .project-header {
+        grid-template-columns: 1fr;
+    }
+    
+    .project-image {
+        height: 250px;
+    }
+    
+    .project-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .biotech-highlights {
+        grid-template-columns: 1fr;
+    }
+    
+    .academic-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .approach-principles {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #research-hero {
+        height: 30vh;
+    }
+    
+    .page-title h1 {
+        font-size: 2.5rem;
+    }
+    
+    .project-highlights {
+        grid-template-columns: 1fr;
+    }
+    
+    .achievements-timeline::before {
+        left: 60px;
+    }
+    
+    .timeline-item {
+        padding-left: 100px;
+    }
+    
+    .timeline-date {
+        width: 60px;
+        font-size: 0.9rem;
+        padding: 6px 12px;
+    }
+    
+    .timeline-content::before {
+        left: -30px;
+        width: 15px;
+        height: 15px;
+    }
+}

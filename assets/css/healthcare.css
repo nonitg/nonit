@@ -1,0 +1,525 @@
+/* Healthcare page specific styles */
+:root {
+    --healthcare-primary: #ef4444;
+    --healthcare-light: rgba(239, 68, 68, 0.1);
+    --healthcare-dark: #dc2626;
+}
+
+.active {
+    color: var(--healthcare-primary);
+}
+
+#healthcare-hero {
+    height: 40vh;
+    background-color: var(--healthcare-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 70px;
+}
+
+.page-title {
+    text-align: center;
+}
+
+.page-title h1 {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    color: var(--healthcare-primary);
+}
+
+.title-underline {
+    width: 80px;
+    height: 4px;
+    background-color: var(--healthcare-primary);
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Healthcare Introduction */
+#healthcare-intro {
+    padding: 80px 0;
+}
+
+.healthcare-overview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: start;
+}
+
+.healthcare-text h2 {
+    font-size: 2rem;
+    margin-bottom: 25px;
+    color: var(--primary-color);
+}
+
+.healthcare-text p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    color: var(--text-light);
+}
+
+.healthcare-principles {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.principle-card {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+}
+
+.principle-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.principle-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--healthcare-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: var(--healthcare-primary);
+}
+
+.principle-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.principle-card p {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* Healthcare Sections */
+.healthcare-section {
+    padding: 80px 0;
+}
+
+.alt-bg {
+    background-color: var(--card-bg);
+}
+
+/* Cortico Work Section */
+.cortico-overview {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.role-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.duration {
+    display: inline-block;
+    background-color: var(--healthcare-light);
+    color: var(--healthcare-primary);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.role-description p {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    line-height: 1.7;
+}
+
+.impact-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.stat-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    text-align: center;
+    transition: var(--transition);
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--healthcare-primary);
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.cortico-projects {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.cortico-project {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+}
+
+.project-image {
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.project-details {
+    padding: 25px;
+}
+
+.project-details h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.project-details p {
+    font-size: 1rem;
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.project-tech span {
+    background-color: var(--healthcare-light);
+    color: var(--healthcare-primary);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.project-result, .project-status {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.project-result i {
+    color: #22c55e;
+}
+
+.project-status i {
+    color: var(--secondary-color);
+}
+
+/* PocketDoc Section */
+.pocketdoc-content {
+    margin-top: 50px;
+}
+
+.pocketdoc-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.pocketdoc-image {
+    height: 100%;
+    min-height: 350px;
+    background-color: var(--healthcare-primary);
+    background-image: url('https://via.placeholder.com/600x400/ef4444/ffffff?text=PocketDoc');
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.pocketdoc-intro h3 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.pocketdoc-intro p {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.app-link {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--healthcare-primary);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+
+.app-link:hover {
+    background-color: var(--healthcare-dark);
+    transform: translateY(-2px);
+}
+
+.app-link i {
+    margin-left: 8px;
+    font-size: 0.85rem;
+}
+
+.pocketdoc-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.details-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.detail-section {
+    background-color: white;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.detail-section h4 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--healthcare-primary);
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.detail-section h4::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--healthcare-primary);
+    border-radius: 1.5px;
+}
+
+.detail-section p {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.detail-section ul, .detail-section ol {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.detail-section li {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.detail-section strong {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* Future Vision Section */
+.vision-content {
+    margin-top: 50px;
+}
+
+.vision-intro {
+    font-size: 1.2rem;
+    text-align: center;
+    color: var(--text-light);
+    margin-bottom: 40px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.vision-areas {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.vision-area {
+    background-color: white;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+}
+
+.vision-area:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.vision-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--healthcare-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    color: var(--healthcare-primary);
+}
+
+.vision-area h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.vision-area p {
+    font-size: 1rem;
+    color: var(--text-light);
+    line-height: 1.7;
+}
+
+.vision-quote {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.vision-quote::before {
+    content: "\201C";
+    position: absolute;
+    top: -30px;
+    left: 20px;
+    font-size: 5rem;
+    color: var(--healthcare-primary);
+    opacity: 0.2;
+    font-family: "Georgia", serif;
+}
+
+.vision-quote p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--primary-color);
+    font-style: italic;
+    text-align: center;
+}
+
+/* Media Queries */
+@media screen and (max-width: 1024px) {
+    .healthcare-overview {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .cortico-overview {
+        grid-template-columns: 1fr;
+    }
+    
+    .cortico-project {
+        grid-template-columns: 1fr;
+    }
+    
+    .project-image {
+        height: 250px;
+    }
+    
+    .pocketdoc-header {
+        grid-template-columns: 1fr;
+    }
+    
+    .pocketdoc-image {
+        height: 250px;
+    }
+    
+    .pocketdoc-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .vision-areas {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #healthcare-hero {
+        height: 30vh;
+    }
+    
+    .page-title h1 {
+        font-size: 2.5rem;
+    }
+    
+    .healthcare-principles {
+        grid-template-columns: 1fr;
+    }
+    
+    .impact-stats {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .stat-item {
+        flex: 1 1 calc(50% - 10px);
+    }
+}
