@@ -394,10 +394,15 @@
     transform: translateX(3px);
 }
 
-/* Cortico AI Scribe Image */
+/* Project Images */
 .cortico-scribe {
     background-color: #3b82f6;
     background-image: url('https://via.placeholder.com/600x400/3b82f6/ffffff?text=EMR+AI+Scribe');
+}
+
+.project-detailed-image.bcstem {
+    background-color: #7768ae;
+    background-image: url('https://via.placeholder.com/600x400/7768ae/ffffff?text=BC+STEM');
 }
 
 /* Media Queries */

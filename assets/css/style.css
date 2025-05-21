@@ -560,7 +560,7 @@ section {
     background-image: url('https://via.placeholder.com/600x400/4361ee/ffffff?text=Medical+Guidelines+Tool');
 }
 
-.project-img.bcstem {
+.project-img.bcstem, .featured-img.bcstem {
     background-color: #7768ae;
     background-image: url('https://via.placeholder.com/600x400/7768ae/ffffff?text=BC+STEM');
 }
