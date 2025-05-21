@@ -1,14 +1,32 @@
 :root {
+    /* Color palette */
     --primary-color: #0f172a;
     --primary-light: #334155;
-    --secondary-color: #22c55e;
+    --secondary-color: #3b82f6;
+    --accent-color: #22c55e;
+    
+    /* Section colors */
+    --tech-color: #0284c7;
+    --speaker-color: #f59e0b;
+    --research-color: #6366f1;
+    --healthcare-color: #ef4444;
+    
+    /* Base colors */
     --background-color: #ffffff;
     --text-color: #1a1a1a;
     --text-light: #666666;
+    
+    /* Layout */
     --section-spacing: 100px;
+    --container-width: 1400px;
+    --content-padding: 60px;
+    
+    /* Components */
     --card-bg: #f8f9fa;
     --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     --border-radius: 8px;
+    
+    /* Animations */
     --transition: all 0.3s ease;
 }
 
@@ -171,7 +189,7 @@ nav {
     font-size: 4rem;
     margin-bottom: 10px;
     line-height: 1.1;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -233,8 +251,8 @@ nav {
 
 /* Section styling */
 section {
-    padding: 100px 60px;
-    max-width: 1400px;
+    padding: var(--section-spacing) var(--content-padding);
+    max-width: var(--container-width);
     margin: 0 auto;
 }
 
@@ -256,6 +274,110 @@ section {
     height: 4px;
     background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
     border-radius: 2px;
+}
+
+/* Disciplines Section */
+.disciplines-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.discipline-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.discipline-card:nth-child(1) {
+    border-top: 4px solid var(--tech-color);
+}
+
+.discipline-card:nth-child(2) {
+    border-top: 4px solid var(--speaker-color);
+}
+
+.discipline-card:nth-child(3) {
+    border-top: 4px solid var(--research-color);
+}
+
+.discipline-card:nth-child(4) {
+    border-top: 4px solid var(--healthcare-color);
+}
+
+.discipline-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.discipline-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.discipline-card:nth-child(1) .discipline-icon {
+    color: var(--tech-color);
+    background-color: rgba(2, 132, 199, 0.1);
+}
+
+.discipline-card:nth-child(2) .discipline-icon {
+    color: var(--speaker-color);
+    background-color: rgba(245, 158, 11, 0.1);
+}
+
+.discipline-card:nth-child(3) .discipline-icon {
+    color: var(--research-color);
+    background-color: rgba(99, 102, 241, 0.1);
+}
+
+.discipline-card:nth-child(4) .discipline-icon {
+    color: var(--healthcare-color);
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+.discipline-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.discipline-card p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+    flex-grow: 1;
+}
+
+.discipline-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+.discipline-cta span {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.discipline-cta i {
+    transition: var(--transition);
+}
+
+.discipline-card:hover .discipline-cta i {
+    transform: translateX(5px);
 }
 
 /* About Section */
@@ -317,6 +439,77 @@ section {
     gap: 30px;
 }
 
+/* Featured Projects Section */
+.featured-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.featured-project {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    height: 100%;
+}
+
+.featured-project:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.featured-img {
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.featured-content {
+    padding: 25px;
+}
+
+.featured-tag {
+    display: inline-block;
+    background-color: rgba(59, 130, 246, 0.1);
+    color: var(--secondary-color);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.featured-content h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.featured-content p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.featured-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--secondary-color);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.featured-link i {
+    margin-left: 5px;
+    transition: var(--transition);
+}
+
+.featured-link:hover i {
+    transform: translateX(5px);
+}
+
 .project-card {
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
@@ -347,19 +540,19 @@ section {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
 }
 
-.project-img.parkinsons {
-    background-color: #134e6f;
-    background-image: url('https://via.placeholder.com/600x400/134e6f/ffffff?text=Parkinson%27s+Detection');
+.project-img.parkinsons, .featured-img.parkinsons {
+    background-color: #6366f1;
+    background-image: url('https://via.placeholder.com/600x400/6366f1/ffffff?text=Parkinson%27s+Detection');
 }
 
-.project-img.pocketdoc {
-    background-color: #ff6b35;
-    background-image: url('https://via.placeholder.com/600x400/ff6b35/ffffff?text=PocketDoc');
+.project-img.pocketdoc, .featured-img.pocketdoc {
+    background-color: #ef4444;
+    background-image: url('https://via.placeholder.com/600x400/ef4444/ffffff?text=PocketDoc');
 }
 
-.project-img.cortico-primary {
-    background-color: #1a936f;
-    background-image: url('https://via.placeholder.com/600x400/1a936f/ffffff?text=Cortico+AI+Model');
+.project-img.cortico-primary, .featured-img.cortico-primary {
+    background-color: #0284c7;
+    background-image: url('https://via.placeholder.com/600x400/0284c7/ffffff?text=Cortico+AI+Model');
 }
 
 .project-img.cortico-guidelines {
@@ -375,6 +568,11 @@ section {
 .project-img.impactivate {
     background-color: #3a86ff;
     background-image: url('https://via.placeholder.com/600x400/3a86ff/ffffff?text=Impactivate');
+}
+
+.featured-img.debate {
+    background-color: #f59e0b;
+    background-image: url('https://via.placeholder.com/600x400/f59e0b/ffffff?text=Debate');
 }
 
 .project-content {
@@ -643,6 +841,58 @@ section {
     margin-bottom: 0;
 }
 
+/* Achievements Highlight Section */
+.achievements-slider {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.achievement-slide {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 25px;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    text-align: center;
+}
+
+.achievement-slide:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.achievement-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(59, 130, 246, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+}
+
+.achievement-content h3 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.achievement-content p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.achievement-link {
+    display: inline-block;
+    color: var(--secondary-color);
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
 /* Contact Section */
 .contact-container {
     max-width: 700px;
@@ -686,34 +936,99 @@ section {
 
 /* Footer */
 footer {
-    background-color: #f8f9fa;
-    padding: 30px 0;
-    text-align: center;
+    background-color: var(--primary-color);
+    padding: 40px 0;
+    color: white;
 }
 
 .footer-content {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 60px;
+    text-align: center;
+}
+
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.footer-nav a {
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.footer-nav a:hover {
+    color: white;
 }
 
 .footer-content p {
-    color: var(--text-light);
+    color: rgba(255, 255, 255, 0.5);
     font-size: 0.9rem;
+}
+
+/* Common component styles */
+.card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card-content {
+    padding: 25px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.section-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--content-padding);
 }
 
 /* Media Queries */
 @media screen and (max-width: 1024px) {
+    :root {
+        --section-spacing: 80px;
+        --content-padding: 40px;
+    }
+    
     section {
-        padding: 80px 40px;
+        padding: var(--section-spacing) var(--content-padding);
     }
     
     header {
-        padding: 20px 40px;
+        padding: 20px var(--content-padding);
     }
     
     #hero {
-        padding: 0 40px;
+        padding: 0 var(--content-padding);
     }
     
     .hero-content h1 {
@@ -731,19 +1046,37 @@ footer {
     .skills-container {
         grid-template-columns: 1fr;
     }
+    
+    .disciplines-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .featured-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .achievements-slider {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
 }
 
 @media screen and (max-width: 768px) {
+    :root {
+        --section-spacing: 60px;
+        --content-padding: 30px;
+    }
+    
     section {
-        padding: 60px 30px;
+        padding: var(--section-spacing) var(--content-padding);
     }
     
     header {
-        padding: 15px 30px;
+        padding: 15px var(--content-padding);
     }
     
     #hero {
-        padding: 0 30px;
+        padding: 0 var(--content-padding);
         flex-direction: column;
         text-align: center;
         justify-content: center;
@@ -786,6 +1119,16 @@ footer {
         grid-template-columns: 1fr;
     }
     
+    .disciplines-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .achievements-slider {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
     .nav-links {
         position: absolute;
         right: 0;
@@ -813,19 +1156,29 @@ footer {
         flex-direction: column;
         gap: 30px;
     }
+    
+    .footer-nav {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
 }
 
 @media screen and (max-width: 480px) {
+    :root {
+        --section-spacing: 50px;
+        --content-padding: 20px;
+    }
+    
     section {
-        padding: 50px 20px;
+        padding: var(--section-spacing) var(--content-padding);
     }
     
     header {
-        padding: 15px 20px;
+        padding: 15px var(--content-padding);
     }
     
     #hero {
-        padding: 0 20px;
+        padding: 0 var(--content-padding);
     }
     
     .hero-content h1 {
