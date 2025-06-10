@@ -9,7 +9,7 @@
     --tech-color: #0284c7;
     --speaker-color: #f59e0b;
     --research-color: #6366f1;
-    --healthcare-color: #ef4444;
+    --community-color: #10b981;
     
     /* Base colors */
     --background-color: #ffffff;
@@ -309,7 +309,7 @@ section {
 }
 
 .discipline-card:nth-child(4) {
-    border-top: 4px solid var(--healthcare-color);
+    border-top: 4px solid var(--community-color);
 }
 
 .discipline-card:hover {
@@ -344,8 +344,8 @@ section {
 }
 
 .discipline-card:nth-child(4) .discipline-icon {
-    color: var(--healthcare-color);
-    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--community-color);
+    background-color: rgba(16, 185, 129, 0.1);
 }
 
 .discipline-card h3 {
