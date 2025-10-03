@@ -46,6 +46,8 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -55,6 +57,33 @@ body {
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+/* Mobile menu overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 998;
+    pointer-events: none;
+}
+
+body.menu-open::before {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+body.menu-open {
+    overflow: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -221,13 +250,34 @@ header.scrolled .nav-links a {
     flex-direction: column;
     gap: 5px;
     cursor: pointer;
+    padding: 8px;
+    transition: all 0.3s ease;
+}
+
+.burger:hover {
+    opacity: 0.7;
 }
 
 .burger div {
     width: 24px;
     height: 2px;
     background: var(--primary);
-    transition: var(--transition);
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+/* Burger animation when active */
+.burger.toggle .line1 {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.burger.toggle .line2 {
+    opacity: 0;
+    transform: translateX(10px);
+}
+
+.burger.toggle .line3 {
+    transform: rotate(45deg) translate(-5px, -6px);
 }
 
 /* Sections */
@@ -1350,23 +1400,139 @@ footer {
     }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* Responsive Design */
+
+/* Tablets & Small Desktops (769px - 1024px) */
+@media (max-width: 1024px) {
+    :root {
+        --space-lg: 1.5rem;
+        --space-xl: 2.5rem;
+        --space-2xl: 3.5rem;
+    }
+    
     nav {
-        padding: var(--space-md);
+        padding: 1rem var(--space-md);
+    }
+    
+    section {
+        padding: var(--space-2xl) var(--space-md);
+    }
+    
+    .section-header h2 {
+        font-size: 2.2rem;
+    }
+    
+    .hero-content {
+        gap: var(--space-lg);
+    }
+    
+    .hero-stats {
+        gap: var(--space-md);
+    }
+    
+    .stat-number {
+        font-size: 2.2rem;
+    }
+    
+    .stat-label {
+        font-size: 0.85rem;
+    }
+    
+    .work-header {
+        gap: var(--space-md);
+    }
+    
+    .work-logo {
+        width: 75px;
+        height: 75px;
+    }
+    
+    .work-item h3 {
+        font-size: 1.5rem;
+    }
+    
+    .leadership-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .awards-by-category {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile & Tablets (max-width: 768px) */
+@media (max-width: 768px) {
+    :root {
+        --space-sm: 0.65rem;
+        --space-md: 1rem;
+        --space-lg: 1.25rem;
+        --space-xl: 2rem;
+        --space-2xl: 2.5rem;
+        --border-radius: 10px;
+    }
+    
+    html {
+        font-size: 15px;
+    }
+    
+    /* Header & Navigation */
+    header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(12px);
+    }
+    
+    header.scrolled {
+        top: 0.75rem;
+        max-width: 95%;
+        padding: 0;
+    }
+    
+    header.scrolled nav {
+        padding: 0.45rem 0.8rem;
+    }
+    
+    nav {
+        padding: 0.75rem var(--space-md);
+        gap: var(--space-md);
+    }
+    
+    .logo {
+        width: 38px;
+        height: 38px;
+        font-size: 1.3rem;
     }
     
     .nav-links {
         position: fixed;
         right: -100%;
-        top: 70px;
+        top: 0;
         flex-direction: column;
         background: white;
-        width: 70%;
-        height: calc(100vh - 70px);
-        padding: var(--space-xl);
-        box-shadow: var(--shadow-lg);
-        transition: right 0.3s ease;
+        width: 75%;
+        max-width: 320px;
+        height: 100vh;
+        padding: 80px var(--space-lg) var(--space-xl);
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+        transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        gap: 0;
+        z-index: 999;
+    }
+    
+    .nav-links li {
+        width: 100%;
+        border-bottom: 1px solid var(--border);
+    }
+    
+    .nav-links a {
+        display: block;
+        padding: var(--space-md) 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--primary);
+    }
+    
+    .nav-links a::after {
+        display: none;
     }
     
     .nav-links.active {
@@ -1375,6 +1541,402 @@ footer {
     
     .burger {
         display: flex;
+        z-index: 1000;
+        position: relative;
+    }
+    
+    .burger div {
+        width: 26px;
+        height: 2.5px;
+        border-radius: 2px;
+    }
+    
+    /* Hero Section */
+    #hero {
+        min-height: auto;
+        padding: 100px var(--space-md) var(--space-2xl);
+    }
+    
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+    
+    .hero-right {
+        display: none;
+    }
+    
+    .hero-content h1 {
+        font-size: clamp(2.2rem, 10vw, 3rem);
+        margin-bottom: var(--space-md);
+    }
+    
+    .hero-content h2 {
+        font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+        margin-bottom: var(--space-lg);
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+    
+    .stat {
+        text-align: center;
+        padding: var(--space-md);
+        background: var(--bg-alt);
+        border-radius: 8px;
+        border: 1px solid var(--border);
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+        margin-top: var(--space-xs);
+    }
+    
+    .hero-btns {
+        gap: var(--space-md);
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        text-align: center;
+        padding: 15px 24px;
+        font-size: 1rem;
+    }
+    
+    /* Sections */
+    section {
+        padding: var(--space-2xl) var(--space-md);
+    }
+    
+    #work,
+    #impact,
+    #recognition,
+    #skills,
+    #leadership {
+        padding-top: var(--space-2xl);
+    }
+    
+    .section-header {
+        margin-bottom: var(--space-lg);
+    }
+    
+    .section-header h2 {
+        font-size: 1.9rem;
+    }
+    
+    /* Intro */
+    .intro-text {
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+    
+    /* Work Items */
+    .work-grid {
+        gap: var(--space-lg);
+    }
+    
+    .work-item {
+        padding: var(--space-lg) var(--space-md);
+    }
+    
+    .work-header {
+        flex-direction: column-reverse;
+        gap: var(--space-md);
+        align-items: center;
+        text-align: center;
+    }
+    
+    .work-logo {
+        width: 80px;
+        height: 80px;
+        margin-bottom: var(--space-sm);
+    }
+    
+    .work-item h3 {
+        font-size: 1.4rem;
+        line-height: 1.3;
+    }
+    
+    .work-company {
+        font-size: 0.8rem;
+    }
+    
+    .work-description {
+        font-size: 0.95rem;
+        line-height: 1.65;
+    }
+    
+    .work-impact {
+        flex-direction: column;
+        gap: var(--space-sm);
+        padding: var(--space-md);
+    }
+    
+    .impact-item {
+        font-size: 0.9rem;
+        text-align: center;
+    }
+    
+    .work-tech {
+        justify-content: center;
+    }
+    
+    .tech-badge {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .work-links {
+        justify-content: center;
+    }
+    
+    /* Projects */
+    .other-projects-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+    
+    .small-project {
+        padding: var(--space-md);
+    }
+    
+    .small-project h3 {
+        font-size: 1.25rem;
+    }
+    
+    .small-project > p {
+        font-size: 0.9rem;
+    }
+    
+    /* Impact Cards */
+    .impact-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+    
+    .impact-card {
+        padding: var(--space-md);
+    }
+    
+    .impact-icon {
+        width: 54px;
+        height: 54px;
+        font-size: 1.4rem;
+    }
+    
+    .impact-card h3 {
+        font-size: 1.3rem;
+    }
+    
+    /* Recognition */
+    .major-awards {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+    
+    .major-award-card {
+        padding: var(--space-md);
+    }
+    
+    .award-logo {
+        width: 100px;
+        height: 70px;
+    }
+    
+    .major-award-card h3 {
+        font-size: 1.15rem;
+    }
+    
+    .award-result {
+        font-size: 1rem;
+    }
+    
+    .award-details {
+        font-size: 0.9rem;
+    }
+    
+    .awards-by-category {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+    
+    .category-awards-section {
+        padding: var(--space-md);
+    }
+    
+    .category-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
+    }
+    
+    .category-header h3 {
+        font-size: 1.3rem;
+    }
+    
+    .award-item-enhanced {
+        padding: var(--space-sm);
+    }
+    
+    .award-item-enhanced h4 {
+        font-size: 1rem;
+    }
+    
+    .award-item-enhanced p {
+        font-size: 0.88rem;
+    }
+    
+    /* Skills */
+    .skills-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .skill-category {
+        padding: var(--space-md);
+    }
+    
+    .skill-category h3 {
+        font-size: 1.1rem;
+    }
+    
+    .skill-items span {
+        padding: 7px 12px;
+        font-size: 0.85rem;
+    }
+    
+    /* Leadership */
+    .leadership-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+    
+    .leadership-card {
+        padding: var(--space-md);
+    }
+    
+    .leadership-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+    
+    .leadership-card-content h3 {
+        font-size: 1.2rem;
+    }
+    
+    .leadership-role {
+        font-size: 0.88rem;
+    }
+    
+    /* Contact */
+    .contact-intro {
+        font-size: 1.05rem;
+        margin-bottom: var(--space-md);
+    }
+    
+    .contact-email-text {
+        font-size: 1rem;
+    }
+    
+    .contact-links {
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+    
+    .contact-link {
+        padding: var(--space-md);
+    }
+    
+    .contact-link i {
+        font-size: 1.8rem;
+    }
+}
+
+/* Small Mobile Devices (max-width: 480px) */
+@media (max-width: 480px) {
+    :root {
+        --space-xs: 0.35rem;
+        --space-sm: 0.55rem;
+        --space-md: 0.85rem;
+        --space-lg: 1rem;
+        --space-xl: 1.5rem;
+        --space-2xl: 2rem;
+        --border-radius: 8px;
+    }
+    
+    html {
+        font-size: 14px;
+    }
+    
+    header.scrolled {
+        max-width: 96%;
+    }
+    
+    .logo {
+        width: 36px;
+        height: 36px;
+        font-size: 1.2rem;
+    }
+    
+    .burger div {
+        width: 24px;
+    }
+    
+    .nav-links {
+        width: 85%;
+        padding: 70px var(--space-md) var(--space-lg);
+    }
+    
+    .nav-links a {
+        font-size: 1.05rem;
+        padding: var(--space-md) 0;
+    }
+    
+    #hero {
+        padding: 90px var(--space-md) var(--space-xl);
+        min-height: auto;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem;
+        line-height: 1.15;
+    }
+    
+    .hero-content h2 {
+        font-size: 1.05rem;
+    }
+    
+    .hero-stats {
+        gap: var(--space-sm);
+    }
+    
+    .stat {
+        padding: var(--space-sm);
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .stat-label {
+        font-size: 0.85rem;
+    }
+    
+    .hero-btns {
+        gap: var(--space-sm);
+    }
+    
+    .btn {
+        padding: 13px 20px;
+        font-size: 0.95rem;
     }
     
     section {
@@ -1382,71 +1944,220 @@ footer {
     }
     
     .section-header h2 {
-        font-size: 2rem;
+        font-size: 1.6rem;
     }
     
-    #hero {
-        min-height: 85vh;
+    .section-line {
+        width: 50px;
+        height: 3px;
     }
     
-    .hero-content {
-        grid-template-columns: 1fr;
+    .intro-text {
+        font-size: 1rem;
     }
     
-    .hero-right {
-        display: none;
+    .work-item {
+        padding: var(--space-md) var(--space-sm);
     }
     
-    .hero-stats {
-        gap: var(--space-lg);
+    .work-tag {
+        padding: 5px 12px;
+        font-size: 0.75rem;
     }
     
-    .stat-number {
-        font-size: 2rem;
+    .work-item h3 {
+        font-size: 1.25rem;
+    }
+    
+    .work-company {
+        font-size: 0.75rem;
+    }
+    
+    .work-description {
+        font-size: 0.9rem;
+    }
+    
+    .work-logo {
+        width: 70px;
+        height: 70px;
+        padding: 8px;
     }
     
     .work-impact {
-        flex-direction: column;
-        gap: var(--space-sm);
+        padding: var(--space-sm);
+    }
+    
+    .impact-item {
+        font-size: 0.85rem;
+    }
+    
+    .tech-badge {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+    }
+    
+    .work-link {
+        font-size: 0.88rem;
     }
     
     .other-projects-grid {
-        grid-template-columns: 1fr;
+        gap: var(--space-md);
     }
     
-    .major-awards {
-        grid-template-columns: 1fr;
+    .small-project {
+        padding: var(--space-md) var(--space-sm);
     }
     
-    .awards-by-category {
-        grid-template-columns: 1fr;
+    .small-project h3 {
+        font-size: 1.15rem;
     }
     
-    .leadership-grid {
-        grid-template-columns: 1fr;
+    .project-tag {
+        font-size: 0.7rem;
+        padding: 3px 8px;
     }
     
-    .contact-links {
-        gap: var(--space-lg);
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-content h1 {
-        font-size: 2.5rem;
+    .small-project > p {
+        font-size: 0.88rem;
     }
     
-    .hero-tagline {
+    .project-tech-inline span {
+        font-size: 0.75rem;
+        padding: 3px 8px;
+    }
+    
+    .project-link-small {
+        font-size: 0.85rem;
+    }
+    
+    .major-award-card {
+        padding: var(--space-md) var(--space-sm);
+    }
+    
+    .award-logo {
+        width: 90px;
+        height: 60px;
+    }
+    
+    .award-badge {
+        font-size: 0.7rem;
+        padding: 5px 10px;
+    }
+    
+    .major-award-card h3 {
+        font-size: 1.05rem;
+    }
+    
+    .award-result {
+        font-size: 0.95rem;
+    }
+    
+    .award-details {
+        font-size: 0.85rem;
+    }
+    
+    .category-awards-section {
+        padding: var(--space-md) var(--space-sm);
+    }
+    
+    .category-header {
+        gap: var(--space-sm);
+        margin-bottom: var(--space-md);
+        padding-bottom: var(--space-sm);
+    }
+    
+    .category-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+    }
+    
+    .category-header h3 {
+        font-size: 1.15rem;
+    }
+    
+    .awards-list-enhanced {
+        gap: var(--space-sm);
+    }
+    
+    .award-item-enhanced {
+        padding: var(--space-sm);
+    }
+    
+    .award-item-enhanced h4 {
+        font-size: 0.95rem;
+    }
+    
+    .award-item-enhanced p {
+        font-size: 0.82rem;
+    }
+    
+    .leadership-card {
+        padding: var(--space-md) var(--space-sm);
+    }
+    
+    .leadership-icon {
+        width: 46px;
+        height: 46px;
+        font-size: 1.2rem;
+    }
+    
+    .leadership-card-content h3 {
         font-size: 1.1rem;
     }
     
-    .hero-btns {
-        flex-direction: column;
+    .leadership-role {
+        font-size: 0.82rem;
     }
     
-    .btn {
-        width: 100%;
-        text-align: center;
+    .contact-intro {
+        font-size: 0.98rem;
+    }
+    
+    .contact-email-text {
+        font-size: 0.95rem;
+    }
+    
+    .contact-link {
+        padding: var(--space-sm);
+    }
+    
+    .contact-link i {
+        font-size: 1.6rem;
+    }
+    
+    .contact-link span {
+        font-size: 0.9rem;
+    }
+    
+    footer {
+        padding: var(--space-md);
+        font-size: 0.88rem;
+    }
+}
+
+/* Extra Small Devices (max-width: 360px) */
+@media (max-width: 360px) {
+    html {
+        font-size: 13px;
+    }
+    
+    .hero-content h1 {
+        font-size: 1.8rem;
+    }
+    
+    .stat-number {
+        font-size: 1.8rem;
+    }
+    
+    .section-header h2 {
+        font-size: 1.45rem;
+    }
+    
+    .work-item h3,
+    .small-project h3,
+    .leadership-card-content h3 {
+        font-size: 1.1rem;
     }
 }
 
