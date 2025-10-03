@@ -4,15 +4,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const nav = document.querySelector('.nav-links');
     const navLinks = document.querySelectorAll('.nav-links li');
     
+    // Toggle menu
     if (burger) {
         burger.addEventListener('click', () => {
-            // Toggle Nav
             nav.classList.toggle('active');
-            
-            // Burger Animation
             burger.classList.toggle('toggle');
+            document.body.classList.toggle('menu-open');
         });
     }
+    
+    // Close menu when clicking nav links
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            nav.classList.remove('active');
+            burger.classList.remove('toggle');
+            document.body.classList.remove('menu-open');
+        });
+    });
+    
+    // Close menu when clicking outside (overlay)
+    document.addEventListener('click', (e) => {
+        if (nav.classList.contains('active') && 
+            !nav.contains(e.target) && 
+            !burger.contains(e.target)) {
+            nav.classList.remove('active');
+            burger.classList.remove('toggle');
+            document.body.classList.remove('menu-open');
+        }
+    });
     
     // Header scroll effect with glassmorphism - optimized for smoothness
     const header = document.querySelector('header');
@@ -92,5 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 sphere.style.transform = `translate(${x * depth}px, ${y * depth}px)`;
             });
         });
+    }
+});
     }
 });
