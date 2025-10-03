@@ -96,7 +96,7 @@ Used elastic equations extra research to convert units into Joules and study how
 Key Learning: Pushing my love for science, out of pure curiosity, learnt so much more excel and formulas, kinetic and elastic energies. 
 
 
- Impactivate Engineering
+ Impactivate Engineering (scraped and pivoted to BC stem OPpportunities as we saw there was the real need there. )
 Nonprofit for STEM Education (In progress work on this over summer)
 impactivate.ca
 Organizational management skills
@@ -108,15 +108,14 @@ Teaching Division: Currently our main focus, this division aims to educate eleme
 Impact Division: This branch invites individuals to work on real, tangible projects that can positively impact our community and the world. Examples of potential projects include developing robots to fill sidewalk cracks and conducting research studies on various diseases.
 
 
-Curriculum Development: Countless nights were spent determining what content to include in our lessons. Ultimately, we decided to prioritize the development of key skills and passions in our students. Our curriculum emphasizes research skills, collaboration, and problem-solving, which we believe are crucial for their growth and success.
-
-
 Website Development: Our website, arguably the most important face of our organization, went through numerous drafts and prototypes. After extensive effort, we are proud to present our current website: Impactivate Engineering (https://www.impactivate.ca/).
 
 
 Community Outreach: Although we were running behind our planned schedule, this Monday we visited 12 different elementary schools in Langley and Clayton, seeking the opportunity to present our summer STEM courses. Due to the end-of-year timing, we were advised to follow up via email, which we have done, and we are currently awaiting responses.
 
 Overall a great and will continue to be a learning experience of stepping into the real world out of my comfort zone. Leadership skills, teamwork, management, communication, dealing with so so so much rejection. 
+
+
 
 Research Paper on base systems for math class:
 https://www.overleaf.com/project#
@@ -263,7 +262,11 @@ Curating this centralized platform for students across British Columbia
 
 https://www.bcstem.ca
 
-Part of impactivate
+
+4500 ACTIVE USERS
+PARTNERSHIPS WITH 5 ORGANISATIONS ACROSS CANADA
+TOP 30 NONPROFITS IN CANADA $1k GRANT
+
 2025
 Life science conference Oct 21
 
@@ -275,6 +278,8 @@ May 25 2024	BCCO Specal Merit Award		CAD 50	BC wide chemistry Contest.
 Nov 2023	KPU Science Challenge		Third Place	BC wide + 50 teams
 
 CWSF selection was 2% across canda. 
+
+won BROZE at CWSF and $25k + in shcolarships
 
 Work at Cortico: 
 Sept 16 - Oct 26	Built a custom ML model based upon open source LLm's trained on pubmed articles to generate infromative articles on low competition, high traffic SEO topics to imrpove patient outcpmes. Accurately cites sources, over 3Mil Open source articles and all of pubmed abstratcs available. 	https://cortico.health/article/	Slack link	https://github.com/nonitgupta/Cortio-Article-Generator	Led it on my own, reviewed by doctor. Lots of time, learnt pytorch, hugging face, functionality and way ML works. Webscraping for articles, making my own training.  		Ranking high on google search and helped to boost traffic to the company site by 3%
@@ -341,6 +346,11 @@ Feb 2025 - PresentFeb 2025 - Present
 https://www.bcstem.ca
 
 A centralized platform for STEM students across BC to find and explore opportunities in STEM
+3000+ active users
+App on iOS
+20K+ views
+Top 30 impact nonprofit organizations in Canada Youithc Impact challenge. 
+$1K in funding won
 
 I made: 
 
@@ -410,3 +420,12 @@ Lower Mainland South Debate Regionals (January 2023)
 REMSS trischool tournament (October 2022)
  - 1st place team
  - 2nd place speaker
+
+
+
+
+Voice-Based Parkinson’s Screening Tool
+Voice-Based Parkinson’s Screening Tool
+Developed an award-winning AI screening system for early Parkinson’s using a curated dataset of 302 sustained “/ah/” recordings from public mPower/UCI sources and hospital volunteers. Acoustic feature pipeline extracted 22 biomarkers—including jitter, shimmer, harmonic-to-noise ratio, recurrence period density entropy and fractal dimension—using Praat and librosa, then standardized via pandas and scikit-learn. Three tabular models (XGBoost, Random Forest, shallow neural network) trained with SMOTE balancing and 5-fold stratified cross-validation achieved up to 96.6% AUC and 89.7% accuracy. A complementary deep learning pathway converted samples to 224×224 mel-spectrograms for transfer learning on EfficientNet-B0 (TensorFlow/Keras) with noise injection, time-stretching and pitch-shifting augmentations, reaching 97.6% AUC, 92.3% accuracy and 100% precision. A hybrid ensemble fused model outputs via grid-searched weights to deliver 98.3% AUC and 94.5% accuracy—20% above prior benchmarks. End-to-end workflow managed by Git/GitHub Actions CI, DVC for dataset versioning, MLflow experiment tracking and AWS S3 storage. HIPAA-compliant data collection with clinical partners and validation on smartphone-captured recordings ensured real-world robustness and clinical relevance.
+
+See more here: https://partner.projectboard.world/ysc/project/early-voices-of-parkinsons-machine-learning-for-optimal-early-parkinsons-detection
