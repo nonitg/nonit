@@ -113,50 +113,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Fluid Simulation Toggle with persistence
+    // Fluid Simulation Toggle (no persistence, always starts enabled)
     const fluidToggle = document.getElementById('fluid-toggle');
     const fluidCanvas = document.getElementById('fluid-canvas');
-    
-    // Load saved state from localStorage (default: enabled)
-    const savedState = localStorage.getItem('fluidEffectEnabled');
-    let isFluidEnabled = savedState === null ? true : savedState === 'true';
-    
-    // Apply initial state
-    const updateFluidState = (enabled) => {
-        isFluidEnabled = enabled;
-        localStorage.setItem('fluidEffectEnabled', enabled);
-        
-        if (enabled) {
-            fluidToggle.classList.remove('disabled');
-            fluidCanvas.classList.remove('hidden');
-            if (window.fluidSim) {
-                window.fluidSim.enabled = true;
-            }
-        } else {
-            fluidToggle.classList.add('disabled');
-            fluidCanvas.classList.add('hidden');
-            if (window.fluidSim) {
-                window.fluidSim.enabled = false;
-            }
-        }
-    };
-    
-    // Wait for fluid sim to initialize, then apply state
-    const initFluidState = () => {
-        if (window.fluidSim) {
-            updateFluidState(isFluidEnabled);
-        } else {
-            // Wait a bit for fluid sim to initialize
-            setTimeout(initFluidState, 50);
-        }
-    };
-    
-    initFluidState();
+    let isFluidEnabled = true;
     
     // Toggle on click
     if (fluidToggle) {
         fluidToggle.addEventListener('click', () => {
-            updateFluidState(!isFluidEnabled);
+            isFluidEnabled = !isFluidEnabled;
+            
+            if (isFluidEnabled) {
+                fluidToggle.classList.remove('disabled');
+                fluidCanvas.classList.remove('hidden');
+                if (window.fluidSim) {
+                    window.fluidSim.enabled = true;
+                }
+            } else {
+                fluidToggle.classList.add('disabled');
+                fluidCanvas.classList.add('hidden');
+                if (window.fluidSim) {
+                    window.fluidSim.enabled = false;
+                }
+            }
         });
     }
 });
