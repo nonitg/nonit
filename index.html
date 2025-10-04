@@ -19,6 +19,50 @@
         <i class="fas fa-magic"></i>
     </button>
 
+    <!-- Fluid Playground (Easter Egg) -->
+    <div id="fluid-playground" class="fluid-playground">
+        <button class="playground-close" onclick="closeFluidPlayground()" aria-label="Close playground">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <canvas id="playground-canvas"></canvas>
+        
+        <div class="playground-controls" id="playground-controls">
+            <div class="controls-header">
+                <h3>Controls</h3>
+                <button class="controls-minimize" id="controls-minimize" aria-label="Minimize controls">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            
+            <div class="controls-content" id="controls-content">
+                <div class="control-group">
+                    <label for="color-intensity">Brightness</label>
+                    <input type="range" id="color-intensity" min="1" max="20" value="7" step="1">
+                </div>
+                
+                <div class="control-group">
+                    <label for="swirl-amount">Swirl</label>
+                    <input type="range" id="swirl-amount" min="0" max="50" value="25" step="1">
+                </div>
+                
+                <div class="control-group">
+                    <label for="fade-speed">Fade</label>
+                    <input type="range" id="fade-speed" min="90" max="99" value="96" step="1">
+                </div>
+                
+                <div class="control-group">
+                    <label for="splat-size">Size</label>
+                    <input type="range" id="splat-size" min="5" max="50" value="18" step="1">
+                </div>
+                
+                <button class="playground-reset" id="playground-reset">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+        </div>
+    </div>
+
     <header>
         <nav>
             <div class="logo">NG</div>
@@ -27,6 +71,12 @@
                 <!-- <li><a href="#impact">Impact</a></li> -->
                 <li><a href="#recognition">Recognition</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <li class="mobile-fluid-toggle-item">
+                    <button class="mobile-fluid-toggle" id="mobile-fluid-toggle">
+                        <i class="fas fa-magic"></i>
+                        <span>Toggle Fluid Effect</span>
+                    </button>
+                </li>
             </ul>
             <div class="burger">
                 <div class="line1"></div>
@@ -46,11 +96,11 @@
                     <div class="hero-stats">
                         <div class="stat">
                             <div class="stat-number">2,500+</div>
-                            <div class="stat-label">Clinics Using My Systems</div>
+                            <div class="stat-label"><span class="mobile-text">Clinics</span><span class="desktop-text">Clinics Using My Systems</span></div>
                         </div>
                         <div class="stat">
-                            <div class="stat-number">4,500+</div>
-                            <div class="stat-label">Students Reached</div>
+                            <div class="stat-number">5,000+</div>
+                            <div class="stat-label"><span class="mobile-text">Students</span><span class="desktop-text">Students Reached</span></div>
                         </div>
                         <div class="stat">
                             <div class="stat-number">Top 0.2%</div>
@@ -59,7 +109,7 @@
                     </div>
                     <div class="hero-btns">
                         <a href="#work" class="btn primary">View Work</a>
-                        <a href="#contact" class="btn secondary">Get in Touch</a>
+                        <a href="#contact" class="btn secondary">Contact</a>
                     </div>
                 </div>
                 
@@ -74,7 +124,10 @@
         <!-- Quick Intro -->
         <section id="intro">
             <div class="intro-content">
-                <p class="intro-text"><strong>AI Software Developer</strong> at Cortico Health Technologies, building production ML systems deployed to 2,500+ clinics across Canada. Award-winning researcher whose Parkinson's detection AI <strong>surpassed published scientific benchmarks</strong>. Founder of BC STEM Opportunities serving 4,500+ students.</p>
+                <p class="intro-text">
+                    <span class="desktop-text"><strong>AI Software Developer</strong> at Cortico Health Technologies, building production ML systems deployed to 2,500+ clinics across Canada. Award-winning researcher whose Parkinson's detection AI <strong>surpassed published scientific benchmarks</strong>. Founder of BC STEM Opportunities serving 4,500+ students.</span>
+                    <span class="mobile-text"><strong>AI Developer</strong> at Cortico Health, building ML systems for 2,500+ clinics. Award-winning researcher with Parkinson's detection AI that <strong>surpassed scientific benchmarks</strong>. Founded BC STEM serving 4,500+ students.</span>
+                </p>
             </div>
         </section>
 
@@ -119,7 +172,11 @@
                         <span class="tech-badge">RAG</span>
                         <span class="tech-badge">Vector DB</span>
                         <span class="tech-badge">FastAPI</span>
-                        <span class="tech-badge">GCP</span>
+                        <span class="tech-badge">React, Preact</span>
+                        <span class="tech-badge">Django</span>
+                        <span class="tech-badge">nginx, Docker, CI/CD, Git</span>
+                        <span class="tech-badge">Hugging Face, OpenAI</span>
+                        <span class="tech-badge">AWS, GCP, Azure</span>
                     </div>
                 </div>
 
@@ -151,6 +208,10 @@
                         <span class="tech-badge">XGBoost</span>
                         <span class="tech-badge">Signal Processing</span>
                         <span class="tech-badge">MLflow</span>
+                        <span class="tech-badge">CNN's & Spectograms</span>
+                        <span class="tech-badge">Pytorch</span>
+                        <span class="tech-badge">Hugging Face</span>
+                        <span class="tech-badge">AWS</span>
                     </div>
                     
                     <div class="work-links">
@@ -175,7 +236,7 @@
                     
                     <div class="work-impact">
                         <div class="impact-item">
-                            <strong>4,500+</strong> active users, 25K+ views
+                            <strong>5,000+</strong> active users, 25K+ views
                         </div>
                         <div class="impact-item">
                             <strong>Top 30</strong> nonprofits in Canada
@@ -205,7 +266,7 @@
                         <h3>PocketDoc Healthcare App</h3>
                         <div class="project-tag">Full-Stack Mobile</div>
                     </div>
-                    <p>Mobile diagnostic app with custom ML models. Reduced costs from $10k/month to $0.04 per session — led to Cortico internship.</p>
+                    <p>Mobile diagnostic app with custom ML models. Reduced costs from $10k/month to $0.04 per session, leading to Cortico internship.</p>
                     <div class="project-tech-inline">
                         <span>Flutter</span>
                         <span>Firebase</span>
@@ -219,11 +280,11 @@
                         <h3>Tock Task Manager</h3>
                         <div class="project-tag">Full-Stack App</div>
                     </div>
-                    <p>Full-stack task manager built from scratch. Free alternative to subscription productivity apps.</p>
+                    <p>I got tired of subscription productivity apps, they sucked... so I built my own from scratch.</p>
                     <div class="project-tech-inline">
-                        <span>React</span>
-                        <span>Node.js</span>
-                        <span>Database</span>
+                        <span>Flutter</span>
+                        <span>SQL and Supabase</span>
+                        <span>Dart</span>
                         <span>UI/UX</span>
                     </div>
                     <a href="https://nonit-to-do.web.app" target="_blank" class="project-link-small">View Live <i class="fas fa-external-link-alt"></i></a>
@@ -234,11 +295,11 @@
                         <h3>Geography Data Dashboard</h3>
                         <div class="project-tag">Data Science</div>
                     </div>
-                    <p>Interactive data dashboard for statistical analysis. Built for class, deployed school-wide.</p>
+                    <p>Excel was slow and clunky. I built this to quickly analyze data and make charts.</p>
                     <div class="project-tech-inline">
-                        <span>JavaScript</span>
-                        <span>Data Viz</span>
-                        <span>Statistical Analysis</span>
+                        <span>Python</span>
+                        <span>Pandas, Seaborn, Flask</span>
+                        <span></span>
                     </div>
                     <a href="https://nonitg.github.io/data-dash/" target="_blank" class="project-link-small">View Live <i class="fas fa-external-link-alt"></i></a>
                 </div>
@@ -541,7 +602,7 @@
 
     <footer>
         <div class="footer-content">
-            <p>&copy; 2025 Nonit Gupta. Built with purpose.</p>
+            <p>&copy; 2025 Nonit Gupta. I like building stuff.</p>
         </div>
     </footer>
 

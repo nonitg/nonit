@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const burger = document.querySelector('.burger');
     const nav = document.querySelector('.nav-links');
     const navLinks = document.querySelectorAll('.nav-links li');
-    
+    console.log("Click the fluid toggle button 4 times :)")
     // Toggle menu
     if (burger) {
         burger.addEventListener('click', () => {
@@ -115,27 +115,181 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Fluid Simulation Toggle (no persistence, always starts enabled)
     const fluidToggle = document.getElementById('fluid-toggle');
+    const mobileFluidToggle = document.getElementById('mobile-fluid-toggle');
     const fluidCanvas = document.getElementById('fluid-canvas');
     let isFluidEnabled = true;
     
-    // Toggle on click
+    // Easter egg tracking
+    let clickCount = 0;
+    let clickTimer = null;
+    const CLICK_WINDOW = 2000; // 2 seconds to click 4 times
+    const REQUIRED_CLICKS = 4;
+    
+    // Check if mobile
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+        || window.innerWidth <= 768;
+    
+    // Toggle function
+    const toggleFluid = () => {
+        isFluidEnabled = !isFluidEnabled;
+        
+        if (isFluidEnabled) {
+            if (fluidToggle) fluidToggle.classList.remove('disabled');
+            if (mobileFluidToggle) mobileFluidToggle.classList.remove('disabled');
+            fluidCanvas.classList.remove('hidden');
+            
+            // Enable fluid sim
+            if (window.fluidSim) {
+                window.fluidSim.enabled = true;
+            }
+        } else {
+            if (fluidToggle) fluidToggle.classList.add('disabled');
+            if (mobileFluidToggle) mobileFluidToggle.classList.add('disabled');
+            fluidCanvas.classList.add('hidden');
+            
+            // Disable fluid sim
+            if (window.fluidSim) {
+                window.fluidSim.enabled = false;
+            }
+        }
+    };
+    
+    // Easter egg handler
+    const handleEasterEgg = () => {
+        clickCount++;
+        
+        // Reset timer
+        if (clickTimer) clearTimeout(clickTimer);
+        clickTimer = setTimeout(() => {
+            clickCount = 0;
+        }, CLICK_WINDOW);
+        
+        // Check if reached required clicks
+        if (clickCount >= REQUIRED_CLICKS) {
+            clickCount = 0;
+            clearTimeout(clickTimer);
+            openFluidPlayground();
+        }
+    };
+    
+    // Open fluid playground
+    const openFluidPlayground = () => {
+        const playground = document.getElementById('fluid-playground');
+        if (playground) {
+            playground.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Init playground canvas with vibrant settings
+            if (!window.playgroundSim) {
+                window.playgroundSim = new FluidSimulation('playground-canvas', true);
+                // Set initial vibrant settings
+                window.playgroundSim.setColorIntensity(0.07);
+                window.playgroundSim.config.CURL = 2.5;
+                window.playgroundSim.config.DENSITY_DISSIPATION = 0.96;
+                window.playgroundSim.config.SPLAT_RADIUS = 0.18;
+            } else {
+                window.playgroundSim.enabled = true;
+            }
+        }
+    };
+    
+    // Close fluid playground
+    window.closeFluidPlayground = () => {
+        const playground = document.getElementById('fluid-playground');
+        if (playground) {
+            playground.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            if (window.playgroundSim) {
+                window.playgroundSim.enabled = false;
+            }
+        }
+    };
+    
+    // Desktop toggle
     if (fluidToggle) {
         fluidToggle.addEventListener('click', () => {
-            isFluidEnabled = !isFluidEnabled;
-            
-            if (isFluidEnabled) {
-                fluidToggle.classList.remove('disabled');
-                fluidCanvas.classList.remove('hidden');
-                if (window.fluidSim) {
-                    window.fluidSim.enabled = true;
-                }
-            } else {
-                fluidToggle.classList.add('disabled');
-                fluidCanvas.classList.add('hidden');
-                if (window.fluidSim) {
-                    window.fluidSim.enabled = false;
-                }
-            }
+            handleEasterEgg();
+            toggleFluid();
         });
     }
+    
+    // Mobile toggle
+    if (mobileFluidToggle) {
+        mobileFluidToggle.addEventListener('click', () => {
+            handleEasterEgg();
+            toggleFluid();
+            // Close menu after toggling
+            nav.classList.remove('active');
+            burger.classList.remove('toggle');
+            document.body.classList.remove('menu-open');
+        });
+    }
+    
+    // Playground controls
+    const setupPlaygroundControls = () => {
+        const colorIntensity = document.getElementById('color-intensity');
+        const swirlAmount = document.getElementById('swirl-amount');
+        const fadeSpeed = document.getElementById('fade-speed');
+        const splatSize = document.getElementById('splat-size');
+        const resetBtn = document.getElementById('playground-reset');
+        const minimizeBtn = document.getElementById('controls-minimize');
+        const controlsPanel = document.getElementById('playground-controls');
+        
+        // Minimize/maximize controls
+        if (minimizeBtn && controlsPanel) {
+            minimizeBtn.addEventListener('click', () => {
+                controlsPanel.classList.toggle('minimized');
+            });
+        }
+        
+        if (colorIntensity) {
+            colorIntensity.addEventListener('input', (e) => {
+                if (window.playgroundSim) {
+                    window.playgroundSim.setColorIntensity(parseFloat(e.target.value) / 100);
+                }
+            });
+        }
+        
+        if (swirlAmount) {
+            swirlAmount.addEventListener('input', (e) => {
+                if (window.playgroundSim) {
+                    window.playgroundSim.config.CURL = parseFloat(e.target.value) / 10;
+                }
+            });
+        }
+        
+        if (fadeSpeed) {
+            fadeSpeed.addEventListener('input', (e) => {
+                if (window.playgroundSim) {
+                    window.playgroundSim.config.DENSITY_DISSIPATION = parseFloat(e.target.value) / 100;
+                }
+            });
+        }
+        
+        if (splatSize) {
+            splatSize.addEventListener('input', (e) => {
+                if (window.playgroundSim) {
+                    window.playgroundSim.config.SPLAT_RADIUS = parseFloat(e.target.value) / 100;
+                }
+            });
+        }
+        
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                // Reset controls
+                if (colorIntensity) colorIntensity.value = 7;
+                if (swirlAmount) swirlAmount.value = 25;
+                if (fadeSpeed) fadeSpeed.value = 96;
+                if (splatSize) splatSize.value = 18;
+                
+                // Reinit simulation
+                if (window.playgroundSim) {
+                    window.playgroundSim = new FluidSimulation('playground-canvas', true);
+                }
+            });
+        }
+    };
+    
+    setupPlaygroundControls();
 });
