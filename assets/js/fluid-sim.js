@@ -2,12 +2,24 @@
 // Optimized for portfolio overlay use
 
 class FluidSimulation {
-    constructor(canvasId) {
+    constructor(canvasId, forceInit = false) {
         this.canvas = document.getElementById(canvasId);
         if (!this.canvas) return;
         
+        // Don't auto-initialize on mobile unless forced
+        if (this.isMobileDevice() && !forceInit) {
+            this.enabled = false;
+            this.canvas.style.display = 'none';
+            return;
+        }
+        
         this.enabled = true;
         this.init();
+    }
+    
+    isMobileDevice() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+            || window.innerWidth <= 768;
     }
 
     init() {
@@ -1273,11 +1285,16 @@ class FluidSimulation {
         const theme = colorThemes[Math.floor(Math.random() * colorThemes.length)];
         let c = this.HSVtoRGB(theme.h, theme.s, theme.v);
         
-        // Very subtle - elegant background accent
-        c.r *= 0.07;  // Slightly less than 0.06
-        c.g *= 0.07;
-        c.b *= 0.07;
+        // Use custom intensity if set, otherwise default
+        const intensity = this.colorIntensity !== undefined ? this.colorIntensity : 0.07;
+        c.r *= intensity;
+        c.g *= intensity;
+        c.b *= intensity;
         return c;
+    }
+    
+    setColorIntensity(intensity) {
+        this.colorIntensity = intensity;
     }
 
     HSVtoRGB(h, s, v) {
@@ -1368,7 +1385,10 @@ class FluidSimulation {
 
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
-    window.fluidSim = new FluidSimulation('fluid-canvas');
+    // Force init on desktop, optional on mobile
+    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+        || window.innerWidth <= 768;
+    window.fluidSim = new FluidSimulation('fluid-canvas', !isMobileDevice);
 });
 
 
