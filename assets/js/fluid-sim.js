@@ -88,14 +88,11 @@ class FluidSimulation {
         
         this.setupEventListeners();
         
-        // Start animation loop
-        this.update();
+        // Add initial splats BEFORE starting render loop
+        this.multipleSplats(parseInt(Math.random() * 20) + 5);
         
-        // Add initial splats
-        setTimeout(() => {
-            const initialSplats = parseInt(Math.random() * 20) + 5;
-            this.multipleSplats(initialSplats);
-        }, 100);
+        // Now start rendering
+        this.update();
     }
 
     createPointer() {
@@ -1403,14 +1400,10 @@ class FluidSimulation {
     
 }
 
-// Wait for everything to be fully loaded
+// Initialize on window load
 window.addEventListener('load', function() {
     const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
         || window.innerWidth <= 768;
     
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            window.fluidSim = new FluidSimulation('fluid-canvas', !isMobileDevice);
-        });
-    });
+    window.fluidSim = new FluidSimulation('fluid-canvas', !isMobileDevice);
 });
