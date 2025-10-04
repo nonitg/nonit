@@ -17,6 +17,11 @@ class FluidSimulation {
         }
         
         this.enabled = true;
+        // Ensure canvas is visible
+        this.canvas.style.display = 'block';
+        this.canvas.style.opacity = '1';
+        this.canvas.classList.remove('hidden');
+        
         this.init();
     }
     
@@ -83,12 +88,14 @@ class FluidSimulation {
         
         this.setupEventListeners();
         
-        // Add initial splats
-        const initialSplats = parseInt(Math.random() * 20) + 5;
-        this.multipleSplats(initialSplats);
-        
         // Start animation loop
         this.update();
+        
+        // Add initial splats
+        setTimeout(() => {
+            const initialSplats = parseInt(Math.random() * 20) + 5;
+            this.multipleSplats(initialSplats);
+        }, 100);
     }
 
     createPointer() {
@@ -917,7 +924,6 @@ class FluidSimulation {
     resizeCanvas() {
         let width = this.scaleByPixelRatio(this.canvas.clientWidth);
         let height = this.scaleByPixelRatio(this.canvas.clientHeight);
-        // Prevent resize if dimensions are invalid
         if (width <= 0 || height <= 0) {
             return false;
         }
@@ -1148,13 +1154,12 @@ class FluidSimulation {
     multipleSplats(amount) {
         for (let i = 0; i < amount; i++) {
             const color = this.generateColor();
-            // Balanced multiplier for initial splats
             color.r *= 6.0;
             color.g *= 6.0;
             color.b *= 6.0;
             const x = Math.random();
             const y = Math.random();
-            const dx = 700 * (Math.random() - 0.5);  // Balanced velocity
+            const dx = 700 * (Math.random() - 0.5);
             const dy = 700 * (Math.random() - 0.5);
             this.splat(x, y, dx, dy, color);
         }
@@ -1398,12 +1403,14 @@ class FluidSimulation {
     
 }
 
-// Simple initialization - wait for window load to ensure everything is ready
+// Wait for everything to be fully loaded
 window.addEventListener('load', function() {
     const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
         || window.innerWidth <= 768;
-    window.fluidSim = new FluidSimulation('fluid-canvas', !isMobileDevice);
-    console.log('Fluid simulation initialized');
+    
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            window.fluidSim = new FluidSimulation('fluid-canvas', !isMobileDevice);
+        });
+    });
 });
-
-
