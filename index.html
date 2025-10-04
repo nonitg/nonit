@@ -11,12 +11,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Fluid Simulation Canvas -->
+    <canvas id="fluid-canvas"></canvas>
+    
+    <!-- Fluid Toggle Button -->
+    <button class="fluid-toggle" id="fluid-toggle" data-tooltip="Toggle Fluid Effect" aria-label="Toggle fluid effect">
+        <i class="fas fa-magic"></i>
+    </button>
+
     <header>
         <nav>
             <div class="logo">NG</div>
             <ul class="nav-links">
                 <li><a href="#work">Work</a></li>
-                <li><a href="#impact">Impact</a></li>
+                <!-- <li><a href="#impact">Impact</a></li> -->
                 <li><a href="#recognition">Recognition</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -66,10 +74,7 @@
         <!-- Quick Intro -->
         <section id="intro">
             <div class="intro-content">
-                <p class="intro-text">
-                    <span class="desktop-text"><strong>AI Software Developer</strong> at Cortico Health Technologies, building production ML systems deployed to 2,500+ clinics across Canada. Award-winning researcher whose Parkinson's detection AI <strong>surpassed published scientific benchmarks</strong>. Founder of BC STEM Opportunities serving 4,500+ students.</span>
-                    <span class="mobile-text"><strong>AI Developer</strong> at Cortico Health building ML systems for 2,500+ clinics. Award-winning researcher with AI <strong>surpassing scientific benchmarks</strong>. Founder serving 4,500+ students.</span>
-                </p>
+                <p class="intro-text"><strong>AI Software Developer</strong> at Cortico Health Technologies, building production ML systems deployed to 2,500+ clinics across Canada. Award-winning researcher whose Parkinson's detection AI <strong>surpassed published scientific benchmarks</strong>. Founder of BC STEM Opportunities serving 4,500+ students.</p>
             </div>
         </section>
 
@@ -92,8 +97,8 @@
                         <img src="assets/images/cortico.jpg" alt="Cortico Health" class="work-logo">
                     </div>
                     <p class="work-description">
-                        <span class="desktop-text">Led development of AI tools now deployed to 2,500+ clinics across Canada and actively used by doctors. Built custom LLM trained on 3M+ PubMed articles for medical content generation, RAG-based guidelines lookup tool, and AI scribe for automated EMR documentation.</span>
-                        <span class="mobile-text">Built AI tools deployed to 2,500+ clinics across Canada. Custom LLM trained on 3M+ PubMed articles, RAG guidelines tool, and AI scribe for EMR documentation.</span>
+                        <span class="desc-full">Led development of AI tools now deployed to 2,500+ clinics across Canada. Built custom LLM trained on 3M+ PubMed articles for medical content generation, RAG-based guidelines lookup tool, and AI scribe for automated EMR documentation. Showcased at Family Medicine Forum with strong physician feedback nationwide.</span>
+                        <span class="desc-mobile">Built AI tools deployed to 2,500+ clinics across Canada. Custom LLM trained on 3M+ PubMed articles, RAG-based guidelines tool, and AI scribe for automated EMR documentation.</span>
                     </p>
                     
                     <div class="work-impact">
@@ -124,8 +129,8 @@
                     <h3>Early Parkinson's Detection via Voice AI</h3>
                     <p class="work-company">Independent Research • 2024-2025</p>
                     <p class="work-description">
-                        <span class="desktop-text">Novel AI system detecting Parkinson's disease from voice in less than 5 seconds. Built hybrid model combining traditional ML and deep learning on spectrograms. <strong>Achieved 98.3% accuracy surpassing published scientific benchmarks as of early 2025, a 20% improvement over prior research.</strong></span>
-                        <span class="mobile-text">AI system detecting Parkinson's from voice patterns years before symptoms. <strong>98.3% accuracy—surpassing published benchmarks</strong> with zero false positives. 20% improvement over prior research.</span>
+                        <span class="desc-full">Novel AI system detecting Parkinson's disease from voice patterns in less than five seconds, years before clinical symptoms appear. Built hybrid model combining traditional ML and deep learning on spectrograms. <strong>Achieved 98.3% accuracy surpassing published scientific benchmarks as of early 2025</strong> with zero false positives—a 20% improvement over prior research.</span>
+                        <span class="desc-mobile">AI system detecting Parkinson's disease from voice in less than five seconds. Hybrid model with <strong>98.3% accuracy surpassing published scientific benchmarks</strong>, with zero false positives.</span>
                     </p>
                     
                     <div class="work-impact">
@@ -164,8 +169,8 @@
                         <img src="assets/images/logo.png" alt="BC STEM Opportunities" class="work-logo">
                     </div>
                     <p class="work-description">
-                        <span class="desktop-text">Founded bcstem.ca, a centralized platform helping students across BC discover competitions, research opportunities, and scholarships. Recognized as Top 30 impact nonprofit in Canada. Partnered with organizations across Canada.</span>
-                        <span class="mobile-text">Platform helping BC students discover competitions, research opportunities, and scholarships. Top 30 nonprofit in Canada with national partnerships.</span>
+                        <span class="desc-full">Founded bcstem.ca, a centralized platform helping students across BC discover competitions, research opportunities, and scholarships. Recognized as Top 30 impact nonprofit in Canada. Partnered with organizations across Canada.</span>
+                        <span class="desc-mobile">Centralized platform helping BC students discover competitions, research opportunities, and scholarships. Top 30 impact nonprofit in Canada.</span>
                     </p>
                     
                     <div class="work-impact">
@@ -540,6 +545,7 @@
         </div>
     </footer>
 
+    <script src="assets/js/fluid-sim.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
 </html>

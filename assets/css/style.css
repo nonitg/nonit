@@ -7,7 +7,7 @@
     --accent: #3b82f6;
     --accent-hover: #2563eb;
     --text: #1a1a1a;
-    --text-light: #64748b;
+    --text-light: #556678;
     --text-lighter: #94a3b8;
     --bg: #ffffff;
     --bg-alt: #f8fafc;
@@ -58,6 +58,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    position: relative;
 }
 
 /* Mobile menu overlay */
@@ -105,15 +106,6 @@ ul {
 img {
     max-width: 100%;
     height: auto;
-}
-
-/* Responsive text visibility */
-.mobile-text {
-    display: none;
-}
-
-.desktop-text {
-    display: inline;
 }
 
 /* Header */
@@ -289,11 +281,19 @@ header.scrolled .nav-links a {
     transform: rotate(45deg) translate(-5px, -6px);
 }
 
+/* Main content above fluid */
+main {
+    position: relative;
+    z-index: 1;
+}
+
 /* Sections */
 section {
     max-width: var(--max-width);
     margin: 0 auto;
     padding: var(--space-2xl) var(--space-lg);
+    position: relative;
+    z-index: 1;
 }
 
 /* Add extra spacing between major sections */
@@ -352,6 +352,8 @@ section {
     display: flex;
     align-items: center;
     padding-top: 80px;
+    position: relative;
+    z-index: 10;
 }
 
 .hero-content {
@@ -360,10 +362,14 @@ section {
     grid-template-columns: 1fr 1fr;
     gap: var(--space-xl);
     align-items: center;
+    position: relative;
+    z-index: 10;
 }
 
 .hero-left {
     width: 100%;
+    position: relative;
+    z-index: 10;
 }
 
 .hero-right {
@@ -374,6 +380,7 @@ section {
     min-height: 500px;
     position: relative;
     overflow: visible;
+    z-index: 10;
 }
 
 .hero-content h1 {
@@ -385,6 +392,8 @@ section {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     animation: gradientShift 8s ease infinite;
+    position: relative;
+    z-index: 10;
 }
 
 @keyframes gradientShift {
@@ -397,6 +406,8 @@ section {
     color: var(--text-light);
     font-weight: 500;
     margin-bottom: var(--space-md);
+    position: relative;
+    z-index: 10;
 }
 
 .hero-tagline {
@@ -412,10 +423,14 @@ section {
     gap: var(--space-md);
     margin-bottom: var(--space-lg);
     flex-wrap: nowrap;
+    position: relative;
+    z-index: 10;
 }
 
 .stat {
     text-align: left;
+    position: relative;
+    z-index: 10;
 }
 
 .stat-number {
@@ -428,6 +443,8 @@ section {
     font-family: var(--font-display);
     line-height: 1;
     transition: transform 0.3s ease;
+    position: relative;
+    z-index: 10;
 }
 
 .stat:hover .stat-number {
@@ -438,12 +455,16 @@ section {
     font-size: 0.9rem;
     color: var(--text-lighter);
     margin-top: var(--space-xs);
+    position: relative;
+    z-index: 10;
 }
 
 .hero-btns {
     display: flex;
     gap: var(--space-md);
     flex-wrap: wrap;
+    position: relative;
+    z-index: 10;
 }
 
 /* Buttons */
@@ -458,6 +479,7 @@ section {
     border: 2px solid transparent;
     position: relative;
     overflow: hidden;
+    z-index: 10;
 }
 
 .btn::before {
@@ -498,7 +520,7 @@ section {
 
 /* Intro */
 #intro {
-    background: white;
+    background: transparent;
     padding: var(--space-xl) var(--space-lg);
 }
 
@@ -506,12 +528,16 @@ section {
     max-width: 900px;
     margin: 0 auto;
     text-align: center;
+    position: relative;
+    z-index: 10;
 }
 
 .intro-text {
     font-size: 1.25rem;
     line-height: 1.8;
     color: var(--text-light);
+    position: relative;
+    z-index: 10;
 }
 
 .intro-text strong {
@@ -533,7 +559,7 @@ section {
 
 /* Work Section */
 #work {
-    background: white;
+    background: transparent;
     position: relative;
 }
 
@@ -543,13 +569,16 @@ section {
 }
 
 .work-item {
-    background: white;
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: var(--border-radius);
     padding: var(--space-md) var(--space-lg);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .work-item::before {
@@ -650,6 +679,15 @@ section {
     font-size: 1rem;
 }
 
+/* Show/hide descriptions based on screen size */
+.desc-mobile {
+    display: none;
+}
+
+.desc-full {
+    display: inline;
+}
+
 .work-impact {
     display: flex;
     gap: var(--space-md);
@@ -710,7 +748,7 @@ section {
 
 /* Core Impact Section */
 #impact {
-    background: white;
+    background: transparent;
     position: relative;
 }
 
@@ -722,15 +760,16 @@ section {
 }
 
 .impact-card {
-    background: linear-gradient(to bottom right, #ffffff, #fafbff);
-    border: 2px solid transparent;
-    background-clip: padding-box;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: var(--border-radius);
     padding: var(--space-lg);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .impact-card::after {
@@ -787,7 +826,7 @@ section {
 
 /* Additional Projects */
 #other-projects {
-    background: #fafbfc;
+    background: transparent;
     position: relative;
     margin-top: var(--space-xl);
 }
@@ -799,15 +838,17 @@ section {
 }
 
 .small-project {
-    background: white;
-    border: 1.5px solid var(--border);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
     border-radius: 16px;
     padding: var(--space-lg);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
     position: relative;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .small-project::before {
@@ -903,7 +944,7 @@ section {
 
 /* Recognition */
 #recognition {
-    background: white;
+    background: transparent;
     position: relative;
 }
 
@@ -916,8 +957,10 @@ section {
 }
 
 .major-award-card {
-    background: white;
-    border: 2px solid var(--accent);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid rgba(59, 130, 246, 0.3);
     border-radius: var(--border-radius);
     padding: var(--space-md) var(--space-lg);
     position: relative;
@@ -926,6 +969,7 @@ section {
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     text-align: center;
 }
 
@@ -993,11 +1037,13 @@ section {
 }
 
 .category-awards-section {
-    background: linear-gradient(to bottom, #ffffff, #fefeff);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 16px;
     padding: var(--space-lg);
-    border: 1.5px solid var(--border);
-    box-shadow: 0 2px 12px rgba(139, 92, 246, 0.04);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .category-header {
@@ -1036,11 +1082,15 @@ section {
 
 .award-item-enhanced {
     padding: var(--space-md);
-    background: var(--bg-alt);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 8px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .award-item-enhanced::before {
@@ -1169,7 +1219,7 @@ section {
 
 /* Leadership Section */
 #leadership {
-    background: white;
+    background: transparent;
     position: relative;
 }
 
@@ -1181,13 +1231,15 @@ section {
 }
 
 .leadership-card {
-    background: linear-gradient(to bottom right, #ffffff, #fffbf9);
-    border: 1.5px solid rgba(59, 130, 246, 0.12);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
     border-radius: 14px;
     padding: var(--space-lg);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.06);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .leadership-card::after {
@@ -1276,7 +1328,7 @@ section {
 /* Contact */
 #contact {
     text-align: center;
-    background: white;
+    background: transparent;
     position: relative;
 }
 
@@ -1324,8 +1376,11 @@ section {
     color: var(--text-light);
     border-radius: 12px;
     position: relative;
-    background: white;
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .contact-link::before {
@@ -1472,25 +1527,16 @@ footer {
 /* Mobile & Tablets (max-width: 768px) */
 @media (max-width: 768px) {
     :root {
-        --space-sm: 0.75rem;
-        --space-md: 1.25rem;
-        --space-lg: 1.75rem;
-        --space-xl: 2.5rem;
-        --space-2xl: 3rem;
+        --space-sm: 0.65rem;
+        --space-md: 1rem;
+        --space-lg: 1.25rem;
+        --space-xl: 2rem;
+        --space-2xl: 2.5rem;
         --border-radius: 10px;
     }
     
     html {
         font-size: 15px;
-    }
-    
-    /* Show mobile text, hide desktop text */
-    .mobile-text {
-        display: inline;
-    }
-    
-    .desktop-text {
-        display: none;
     }
     
     /* Header & Navigation */
@@ -1661,12 +1707,12 @@ footer {
     }
     
     .work-item {
-        padding: var(--space-xl) var(--space-lg);
+        padding: var(--space-lg);
     }
     
     .work-header {
         flex-direction: column-reverse;
-        gap: var(--space-lg);
+        gap: var(--space-md);
         align-items: center;
         text-align: center;
         margin-bottom: var(--space-lg);
@@ -1675,13 +1721,12 @@ footer {
     .work-logo {
         width: 80px;
         height: 80px;
-        margin-bottom: var(--space-md);
+        margin-bottom: var(--space-sm);
     }
     
     .work-item h3 {
         font-size: 1.4rem;
         line-height: 1.3;
-        margin-bottom: var(--space-sm);
     }
     
     .work-company {
@@ -1694,11 +1739,19 @@ footer {
         margin-bottom: var(--space-lg);
     }
     
+    /* Switch to mobile descriptions */
+    .desc-full {
+        display: none;
+    }
+    
+    .desc-mobile {
+        display: inline;
+    }
+    
     .work-impact {
         flex-direction: column;
-        gap: var(--space-md);
-        padding: var(--space-lg);
-        margin-bottom: var(--space-lg);
+        gap: var(--space-sm);
+        padding: var(--space-md);
     }
     
     .impact-item {
@@ -1885,12 +1938,12 @@ footer {
 /* Small Mobile Devices (max-width: 480px) */
 @media (max-width: 480px) {
     :root {
-        --space-xs: 0.5rem;
-        --space-sm: 0.75rem;
-        --space-md: 1.15rem;
-        --space-lg: 1.5rem;
-        --space-xl: 2rem;
-        --space-2xl: 2.5rem;
+        --space-xs: 0.35rem;
+        --space-sm: 0.55rem;
+        --space-md: 0.85rem;
+        --space-lg: 1rem;
+        --space-xl: 1.5rem;
+        --space-2xl: 2rem;
         --border-radius: 8px;
     }
     
@@ -1962,11 +2015,24 @@ footer {
     }
     
     section {
-        padding: var(--space-xl) var(--space-md);
+        padding: var(--space-2xl) var(--space-md);
+    }
+    
+    #work,
+    #impact,
+    #recognition,
+    #skills,
+    #leadership {
+        padding-top: var(--space-2xl);
+    }
+    
+    .section-header {
+        margin-bottom: var(--space-xl);
     }
     
     .section-header h2 {
         font-size: 1.6rem;
+        margin-bottom: var(--space-md);
     }
     
     .section-line {
@@ -1978,13 +2044,21 @@ footer {
         font-size: 1rem;
     }
     
+    .work-grid {
+        gap: var(--space-lg);
+    }
+    
     .work-item {
-        padding: var(--space-xl) var(--space-lg);
+        padding: var(--space-lg) var(--space-md);
     }
     
     .work-tag {
-        padding: 6px 14px;
+        padding: 6px 12px;
         font-size: 0.75rem;
+        margin-bottom: var(--space-md);
+    }
+    
+    .work-header {
         margin-bottom: var(--space-md);
     }
     
@@ -2001,14 +2075,14 @@ footer {
     .work-description {
         font-size: 0.9rem;
         line-height: 1.7;
-        margin-bottom: var(--space-lg);
+        margin-bottom: var(--space-md);
     }
     
     .work-logo {
         width: 70px;
         height: 70px;
         padding: 8px;
-        margin-bottom: var(--space-md);
+        margin-bottom: var(--space-sm);
     }
     
     .work-impact {
@@ -2036,17 +2110,21 @@ footer {
     }
     
     .small-project {
-        padding: var(--space-lg);
+        padding: var(--space-lg) var(--space-md);
+    }
+    
+    .project-header {
+        margin-bottom: var(--space-md);
     }
     
     .small-project h3 {
         font-size: 1.15rem;
-        margin-bottom: var(--space-sm);
+        margin-bottom: var(--space-xs);
     }
     
     .project-tag {
         font-size: 0.7rem;
-        padding: 4px 10px;
+        padding: 4px 9px;
     }
     
     .small-project > p {
@@ -2055,19 +2133,13 @@ footer {
         margin-bottom: var(--space-md);
     }
     
-    .project-tech-inline {
-        margin-top: var(--space-md);
-        gap: var(--space-xs);
-    }
-    
     .project-tech-inline span {
         font-size: 0.75rem;
-        padding: 4px 10px;
+        padding: 3px 8px;
     }
     
     .project-link-small {
         font-size: 0.85rem;
-        margin-top: var(--space-sm);
     }
     
     .major-award-card {
@@ -2309,3 +2381,109 @@ footer {
 section {
     scroll-margin-top: 80px;
 }
+
+/* Fluid Simulation Overlay */
+#fluid-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+#fluid-canvas.hidden {
+    opacity: 0;
+}
+
+/* Fluid Toggle Button */
+.fluid-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--accent);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.fluid-toggle:hover {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: var(--accent);
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.2);
+}
+
+.fluid-toggle:active {
+    transform: scale(0.95);
+}
+
+.fluid-toggle.disabled {
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--text-lighter);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.fluid-toggle i {
+    transition: transform 0.3s ease;
+}
+
+.fluid-toggle:hover i {
+    transform: rotate(180deg);
+}
+
+/* Tooltip for toggle */
+.fluid-toggle::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    right: calc(100% + 12px);
+    background: var(--primary);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-family: var(--font-sans);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    box-shadow: var(--shadow-md);
+}
+
+.fluid-toggle:hover::before {
+    opacity: 1;
+}
+
+/* Mobile adjustments for toggle */
+@media (max-width: 768px) {
+    .fluid-toggle {
+        width: 40px;
+        height: 40px;
+        top: 15px;
+        right: 15px;
+        font-size: 1rem;
+    }
+    
+    .fluid-toggle::before {
+        display: none;
+    }
+}
+
+/* Fluid is behind everything (z-index: 0) */
+/* All content has default z-index or positive values */
