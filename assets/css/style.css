@@ -738,8 +738,12 @@ section {
     flex-wrap: wrap;
     margin-bottom: var(--space-md);
     padding: var(--space-sm) var(--space-md);
-    background: var(--bg-alt);
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .impact-item {
