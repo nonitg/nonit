@@ -131,33 +131,47 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Ensure fluid sim is enabled on load (wait for it to be fully initialized)
     const ensureFluidEnabled = () => {
-        // Check if fluid sim exists AND has been properly initialized
-        if (window.fluidSim && window.fluidSim.canvas && window.fluidSim.isInitialized) {
+        // Check if fluid sim exists AND has been properly initialized with framebuffers ready
+        if (window.fluidSim && window.fluidSim.canvas && window.fluidSim.isInitialized && window.fluidSim.framebuffersReady) {
             window.fluidSim.enabled = true;
             fluidCanvas.classList.remove('hidden');
+            // Force canvas to be visible
+            fluidCanvas.style.opacity = '1';
+            fluidCanvas.style.display = 'block';
             if (fluidToggle) fluidToggle.classList.remove('disabled');
             if (mobileFluidToggle) mobileFluidToggle.classList.remove('disabled');
-            console.log('Fluid effect enabled and ready');
+            console.log('✓ Fluid simulation active and rendering');
+            
+            // Verify it's actually rendering after a short delay
+            setTimeout(() => {
+                if (window.fluidSim && window.fluidSim.frameCount > 0) {
+                    console.log(`✓ Confirmed: ${window.fluidSim.frameCount} frames rendered`);
+                } else {
+                    console.warn('⚠ Fluid simulation started but no frames rendered yet');
+                }
+            }, 500);
         } else {
-            // Retry if not yet initialized (max 3 seconds, less frequent checks)
+            // Retry if not yet initialized (max 5 seconds with exponential backoff)
             if (!ensureFluidEnabled.attempts) ensureFluidEnabled.attempts = 0;
             ensureFluidEnabled.attempts++;
             
-            if (ensureFluidEnabled.attempts < 30) {
-                setTimeout(ensureFluidEnabled, 100);
+            if (ensureFluidEnabled.attempts < 50) {
+                // Exponential backoff: start fast, slow down if taking longer
+                const delay = Math.min(100 * Math.pow(1.1, ensureFluidEnabled.attempts), 500);
+                setTimeout(ensureFluidEnabled, delay);
             } else {
-                console.warn('Fluid simulation initialization timeout - may not be visible');
+                console.error('✗ Fluid simulation initialization timeout - please refresh');
             }
         }
     };
-    // Wait a bit before first check to let fluid-sim.js load
-    setTimeout(ensureFluidEnabled, 100);
+    // Start checking immediately
+    ensureFluidEnabled();
     
     // Toggle function
     const toggleFluid = () => {
         // Check if fluid sim is properly initialized
-        if (!window.fluidSim || !window.fluidSim.canvas) {
-            console.warn('Fluid simulation not yet initialized, cannot toggle');
+        if (!window.fluidSim || !window.fluidSim.canvas || !window.fluidSim.isInitialized) {
+            console.warn('⚠ Fluid simulation not ready - please wait a moment');
             return;
         }
         
@@ -167,14 +181,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (fluidToggle) fluidToggle.classList.remove('disabled');
             if (mobileFluidToggle) mobileFluidToggle.classList.remove('disabled');
             fluidCanvas.classList.remove('hidden');
+            fluidCanvas.style.opacity = '1';
             window.fluidSim.enabled = true;
-            console.log('Fluid effect enabled');
+            console.log('✓ Fluid effect enabled');
         } else {
             if (fluidToggle) fluidToggle.classList.add('disabled');
             if (mobileFluidToggle) mobileFluidToggle.classList.add('disabled');
             fluidCanvas.classList.add('hidden');
             window.fluidSim.enabled = false;
-            console.log('Fluid effect disabled');
+            console.log('✓ Fluid effect disabled');
         }
     };
     
