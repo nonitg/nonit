@@ -129,25 +129,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
         || window.innerWidth <= 768;
     
-    // Ensure fluid sim is enabled on load (wait for it to initialize if needed)
+    // Ensure fluid sim is enabled on load (wait for it to be fully initialized)
     const ensureFluidEnabled = () => {
-        if (window.fluidSim) {
+        // Check if fluid sim exists AND has been properly initialized (has canvas property)
+        if (window.fluidSim && window.fluidSim.canvas) {
             window.fluidSim.enabled = true;
             fluidCanvas.classList.remove('hidden');
             if (fluidToggle) fluidToggle.classList.remove('disabled');
             if (mobileFluidToggle) mobileFluidToggle.classList.remove('disabled');
+            console.log('Fluid effect enabled on page load');
         } else {
-            // Retry if not yet initialized
-            setTimeout(ensureFluidEnabled, 50);
+            // Retry if not yet initialized (max 2 seconds)
+            if (!ensureFluidEnabled.attempts) ensureFluidEnabled.attempts = 0;
+            ensureFluidEnabled.attempts++;
+            
+            if (ensureFluidEnabled.attempts < 40) {
+                setTimeout(ensureFluidEnabled, 50);
+            } else {
+                console.warn('Fluid simulation failed to initialize after 2 seconds');
+            }
         }
     };
     ensureFluidEnabled();
     
     // Toggle function
     const toggleFluid = () => {
-        // Wait for fluid sim to be ready
-        if (!window.fluidSim) {
-            console.warn('Fluid simulation not yet initialized');
+        // Check if fluid sim is properly initialized
+        if (!window.fluidSim || !window.fluidSim.canvas) {
+            console.warn('Fluid simulation not yet initialized, cannot toggle');
             return;
         }
         
@@ -158,11 +167,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (mobileFluidToggle) mobileFluidToggle.classList.remove('disabled');
             fluidCanvas.classList.remove('hidden');
             window.fluidSim.enabled = true;
+            console.log('Fluid effect enabled');
         } else {
             if (fluidToggle) fluidToggle.classList.add('disabled');
             if (mobileFluidToggle) mobileFluidToggle.classList.add('disabled');
             fluidCanvas.classList.add('hidden');
             window.fluidSim.enabled = false;
+            console.log('Fluid effect disabled');
         }
     };
     

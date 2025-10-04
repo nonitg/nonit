@@ -4,7 +4,10 @@
 class FluidSimulation {
     constructor(canvasId, forceInit = false) {
         this.canvas = document.getElementById(canvasId);
-        if (!this.canvas) return;
+        if (!this.canvas) {
+            console.error(`FluidSimulation: Canvas with id "${canvasId}" not found`);
+            return;
+        }
         
         // Don't auto-initialize on mobile unless forced
         if (this.isMobileDevice() && !forceInit) {
@@ -75,7 +78,10 @@ class FluidSimulation {
 
         this.initShaders();
         this.initFramebuffers();
-        this.multipleSplats(parseInt(Math.random() * 20) + 5);
+        
+        // Don't add initial splats yet - wait for first resize to complete
+        this.needsInitialSplats = true;
+        this.initialSplatCount = parseInt(Math.random() * 20) + 5;
 
         this.lastUpdateTime = Date.now();
         this.colorUpdateTimer = 0.0;
@@ -890,6 +896,14 @@ class FluidSimulation {
 
         const dt = this.calcDeltaTime();
         if (this.resizeCanvas()) this.initFramebuffers();
+        
+        // Add initial splats after first resize completes
+        if (this.needsInitialSplats) {
+            this.needsInitialSplats = false;
+            this.multipleSplats(this.initialSplatCount);
+            console.log(`Added ${this.initialSplatCount} initial splats`);
+        }
+        
         this.updateColors(dt);
         this.applyInputs();
         if (!this.config.PAUSED) this.step(dt);
@@ -1383,19 +1397,26 @@ class FluidSimulation {
     }
 }
 
-// Initialize immediately (before DOMContentLoaded to ensure it's available for main.js)
+// Initialize when DOM is fully ready
 (function() {
-    // Wait for canvas to exist
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initFluid);
-    } else {
-        initFluid();
-    }
-    
     function initFluid() {
         const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
             || window.innerWidth <= 768;
         window.fluidSim = new FluidSimulation('fluid-canvas', !isMobileDevice);
+        
+        // Verify initialization succeeded
+        if (window.fluidSim && window.fluidSim.canvas) {
+            console.log('Fluid simulation initialized successfully');
+        }
+    }
+    
+    // Ensure DOM is fully loaded before initializing
+    if (document.readyState === 'loading') {
+        // DOM still loading, wait for it
+        document.addEventListener('DOMContentLoaded', initFluid);
+    } else {
+        // DOM already loaded (script is at end of body), init immediately
+        initFluid();
     }
 })();
 
