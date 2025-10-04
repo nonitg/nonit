@@ -1383,12 +1383,20 @@ class FluidSimulation {
     }
 }
 
-// Initialize on DOM load
-document.addEventListener('DOMContentLoaded', () => {
-    // Force init on desktop, optional on mobile
-    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
-        || window.innerWidth <= 768;
-    window.fluidSim = new FluidSimulation('fluid-canvas', !isMobileDevice);
-});
+// Initialize immediately (before DOMContentLoaded to ensure it's available for main.js)
+(function() {
+    // Wait for canvas to exist
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initFluid);
+    } else {
+        initFluid();
+    }
+    
+    function initFluid() {
+        const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+            || window.innerWidth <= 768;
+        window.fluidSim = new FluidSimulation('fluid-canvas', !isMobileDevice);
+    }
+})();
 
 
