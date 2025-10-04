@@ -26,8 +26,6 @@ class FluidSimulation {
     }
 
     init() {
-        this.resizeCanvas();
-
         // Optimized config for subtle but visible portfolio overlay
         this.config = {
             SIM_RESOLUTION: 128,
@@ -77,17 +75,25 @@ class FluidSimulation {
         }
 
         this.initShaders();
-        this.initFramebuffers();
         
-        // Don't add initial splats yet - wait for first resize to complete
-        this.needsInitialSplats = true;
+        // Flag for initialization
+        this.isInitialized = false;
+        this.frameCount = 0;
         this.initialSplatCount = parseInt(Math.random() * 20) + 5;
 
         this.lastUpdateTime = Date.now();
         this.colorUpdateTimer = 0.0;
         
         this.setupEventListeners();
-        this.update();
+        
+        // Defer first setup to ensure canvas is properly sized
+        requestAnimationFrame(() => {
+            this.resizeCanvas();
+            this.initFramebuffers();
+            this.isInitialized = true;
+            console.log('WebGL context initialized, starting animation loop');
+            this.update();
+        });
     }
 
     createPointer() {
@@ -889,7 +895,7 @@ class FluidSimulation {
     }
 
     update() {
-        if (!this.enabled) {
+        if (!this.enabled || !this.isInitialized) {
             requestAnimationFrame(() => this.update());
             return;
         }
@@ -897,11 +903,11 @@ class FluidSimulation {
         const dt = this.calcDeltaTime();
         if (this.resizeCanvas()) this.initFramebuffers();
         
-        // Add initial splats after first resize completes
-        if (this.needsInitialSplats) {
-            this.needsInitialSplats = false;
+        // Add initial splats after a few frames to ensure WebGL is fully ready
+        this.frameCount++;
+        if (this.frameCount === 3) {
             this.multipleSplats(this.initialSplatCount);
-            console.log(`Added ${this.initialSplatCount} initial splats`);
+            console.log(`Added ${this.initialSplatCount} initial splats after ${this.frameCount} frames`);
         }
         
         this.updateColors(dt);
