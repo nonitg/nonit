@@ -76,9 +76,11 @@ class FluidSimulation {
 
         this.initShaders();
         
-        // Flag for initialization
+        // Init state tracking
         this.isInitialized = false;
+        this.framebuffersReady = false;
         this.frameCount = 0;
+        this.initialSplatsAdded = false;
         this.initialSplatCount = parseInt(Math.random() * 20) + 5;
 
         this.lastUpdateTime = Date.now();
@@ -86,13 +88,16 @@ class FluidSimulation {
         
         this.setupEventListeners();
         
-        // Defer first setup to ensure canvas is properly sized
+        // Start animation loop immediately - it handles not-ready state
+        this.update();
+        
+        // Initialize framebuffers on next frame when canvas is sized
         requestAnimationFrame(() => {
             this.resizeCanvas();
             this.initFramebuffers();
+            this.framebuffersReady = true;
             this.isInitialized = true;
-            console.log('WebGL context initialized, starting animation loop');
-            this.update();
+            console.log('Fluid simulation fully initialized and ready');
         });
     }
 
@@ -895,26 +900,31 @@ class FluidSimulation {
     }
 
     update() {
-        if (!this.enabled || !this.isInitialized) {
-            requestAnimationFrame(() => this.update());
+        // Always continue the loop regardless of state
+        requestAnimationFrame(() => this.update());
+        
+        // Wait until we're ready to render
+        if (!this.enabled || !this.isInitialized || !this.framebuffersReady) {
             return;
         }
 
         const dt = this.calcDeltaTime();
-        if (this.resizeCanvas()) this.initFramebuffers();
+        if (this.resizeCanvas()) {
+            this.initFramebuffers();
+        }
         
-        // Add initial splats after a few frames to ensure WebGL is fully ready
+        // Add initial splats after a few frames for stability
         this.frameCount++;
-        if (this.frameCount === 3) {
+        if (this.frameCount === 5 && !this.initialSplatsAdded) {
+            this.initialSplatsAdded = true;
             this.multipleSplats(this.initialSplatCount);
-            console.log(`Added ${this.initialSplatCount} initial splats after ${this.frameCount} frames`);
+            console.log(`Rendered ${this.initialSplatCount} initial splats`);
         }
         
         this.updateColors(dt);
         this.applyInputs();
         if (!this.config.PAUSED) this.step(dt);
         this.render(null);
-        requestAnimationFrame(() => this.update());
     }
 
     calcDeltaTime() {
@@ -928,6 +938,10 @@ class FluidSimulation {
     resizeCanvas() {
         let width = this.scaleByPixelRatio(this.canvas.clientWidth);
         let height = this.scaleByPixelRatio(this.canvas.clientHeight);
+        // Prevent resize if dimensions are invalid
+        if (width <= 0 || height <= 0) {
+            return false;
+        }
         if (this.canvas.width != width || this.canvas.height != height) {
             this.canvas.width = width;
             this.canvas.height = height;
@@ -1390,6 +1404,7 @@ class FluidSimulation {
     // Public methods for control
     toggle() {
         this.enabled = !this.enabled;
+        console.log(`Fluid simulation ${this.enabled ? 'enabled' : 'disabled'}`);
         if (this.enabled) {
             this.canvas.style.opacity = '1';
         } else {
@@ -1400,6 +1415,18 @@ class FluidSimulation {
 
     isEnabled() {
         return this.enabled;
+    }
+    
+    // Debug method
+    getState() {
+        return {
+            enabled: this.enabled,
+            isInitialized: this.isInitialized,
+            framebuffersReady: this.framebuffersReady,
+            frameCount: this.frameCount,
+            initialSplatsAdded: this.initialSplatsAdded,
+            canvasSize: { width: this.canvas.width, height: this.canvas.height }
+        };
     }
 }
 
@@ -1412,8 +1439,21 @@ class FluidSimulation {
         
         // Verify initialization succeeded
         if (window.fluidSim && window.fluidSim.canvas) {
-            console.log('Fluid simulation initialized successfully');
+            console.log('Fluid simulation constructor called');
         }
+        
+        // Add debug helper to console
+        window.debugFluid = () => {
+            if (window.fluidSim && window.fluidSim.getState) {
+                const state = window.fluidSim.getState();
+                console.log('Fluid Simulation State:', state);
+                return state;
+            } else {
+                console.log('Fluid simulation not initialized');
+                return null;
+            }
+        };
+        console.log('Debug: Type debugFluid() in console to check state');
     }
     
     // Ensure DOM is fully loaded before initializing
