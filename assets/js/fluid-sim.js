@@ -75,30 +75,20 @@ class FluidSimulation {
         }
 
         this.initShaders();
-        
-        // Init state tracking
-        this.isInitialized = false;
-        this.framebuffersReady = false;
-        this.frameCount = 0;
-        this.initialSplatsAdded = false;
-        this.initialSplatCount = parseInt(Math.random() * 20) + 5;
+        this.resizeCanvas();
+        this.initFramebuffers();
 
         this.lastUpdateTime = Date.now();
         this.colorUpdateTimer = 0.0;
         
         this.setupEventListeners();
         
-        // Start animation loop immediately - it handles not-ready state
-        this.update();
+        // Add initial splats
+        const initialSplats = parseInt(Math.random() * 20) + 5;
+        this.multipleSplats(initialSplats);
         
-        // Initialize framebuffers on next frame when canvas is sized
-        requestAnimationFrame(() => {
-            this.resizeCanvas();
-            this.initFramebuffers();
-            this.framebuffersReady = true;
-            this.isInitialized = true;
-            console.log('Fluid simulation fully initialized and ready');
-        });
+        // Start animation loop
+        this.update();
     }
 
     createPointer() {
@@ -900,31 +890,20 @@ class FluidSimulation {
     }
 
     update() {
-        // Always continue the loop regardless of state
-        requestAnimationFrame(() => this.update());
-        
-        // Wait until we're ready to render
-        if (!this.enabled || !this.isInitialized || !this.framebuffersReady) {
+        if (!this.enabled) {
+            requestAnimationFrame(() => this.update());
             return;
         }
 
         const dt = this.calcDeltaTime();
-        if (this.resizeCanvas()) {
-            this.initFramebuffers();
-        }
-        
-        // Add initial splats after a few frames for stability
-        this.frameCount++;
-        if (this.frameCount === 5 && !this.initialSplatsAdded) {
-            this.initialSplatsAdded = true;
-            this.multipleSplats(this.initialSplatCount);
-            console.log(`Rendered ${this.initialSplatCount} initial splats`);
-        }
+        if (this.resizeCanvas()) this.initFramebuffers();
         
         this.updateColors(dt);
         this.applyInputs();
         if (!this.config.PAUSED) this.step(dt);
         this.render(null);
+        
+        requestAnimationFrame(() => this.update());
     }
 
     calcDeltaTime() {
@@ -1417,53 +1396,14 @@ class FluidSimulation {
         return this.enabled;
     }
     
-    // Debug method
-    getState() {
-        return {
-            enabled: this.enabled,
-            isInitialized: this.isInitialized,
-            framebuffersReady: this.framebuffersReady,
-            frameCount: this.frameCount,
-            initialSplatsAdded: this.initialSplatsAdded,
-            canvasSize: { width: this.canvas.width, height: this.canvas.height }
-        };
-    }
 }
 
-// Initialize when DOM is fully ready
-(function() {
-    function initFluid() {
-        const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
-            || window.innerWidth <= 768;
-        window.fluidSim = new FluidSimulation('fluid-canvas', !isMobileDevice);
-        
-        // Verify initialization succeeded
-        if (window.fluidSim && window.fluidSim.canvas) {
-            console.log('Fluid simulation constructor called');
-        }
-        
-        // Add debug helper to console
-        window.debugFluid = () => {
-            if (window.fluidSim && window.fluidSim.getState) {
-                const state = window.fluidSim.getState();
-                console.log('Fluid Simulation State:', state);
-                return state;
-            } else {
-                console.log('Fluid simulation not initialized');
-                return null;
-            }
-        };
-        console.log('Debug: Type debugFluid() in console to check state');
-    }
-    
-    // Ensure DOM is fully loaded before initializing
-    if (document.readyState === 'loading') {
-        // DOM still loading, wait for it
-        document.addEventListener('DOMContentLoaded', initFluid);
-    } else {
-        // DOM already loaded (script is at end of body), init immediately
-        initFluid();
-    }
-})();
+// Simple initialization - wait for window load to ensure everything is ready
+window.addEventListener('load', function() {
+    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+        || window.innerWidth <= 768;
+    window.fluidSim = new FluidSimulation('fluid-canvas', !isMobileDevice);
+    console.log('Fluid simulation initialized');
+});
 
 
