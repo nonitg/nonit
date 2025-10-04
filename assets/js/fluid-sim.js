@@ -17,9 +17,9 @@ class FluidSimulation {
         }
         
         this.enabled = true;
-        // Ensure canvas is visible
-        this.canvas.style.display = 'block';
-        this.canvas.style.opacity = '1';
+        
+        // Force canvas visible immediately, bypass CSS transitions
+        this.canvas.style.cssText = 'display: block !important; opacity: 1 !important;';
         this.canvas.classList.remove('hidden');
         
         this.init();
@@ -93,6 +93,8 @@ class FluidSimulation {
         
         // Now start rendering
         this.update();
+        
+        console.log('✓ Fluid simulation ready and rendering');
     }
 
     createPointer() {
@@ -894,8 +896,9 @@ class FluidSimulation {
     }
 
     update() {
+        requestAnimationFrame(() => this.update());
+        
         if (!this.enabled) {
-            requestAnimationFrame(() => this.update());
             return;
         }
 
@@ -906,8 +909,6 @@ class FluidSimulation {
         this.applyInputs();
         if (!this.config.PAUSED) this.step(dt);
         this.render(null);
-        
-        requestAnimationFrame(() => this.update());
     }
 
     calcDeltaTime() {

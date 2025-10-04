@@ -2556,7 +2556,8 @@ section {
     z-index: 0;
     pointer-events: none;
     opacity: 1;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.3s ease;
+    will-change: opacity;
 }
 
 #fluid-canvas.hidden {
