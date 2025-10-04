@@ -131,26 +131,27 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Ensure fluid sim is enabled on load (wait for it to be fully initialized)
     const ensureFluidEnabled = () => {
-        // Check if fluid sim exists AND has been properly initialized (has canvas property)
-        if (window.fluidSim && window.fluidSim.canvas) {
+        // Check if fluid sim exists AND has been properly initialized
+        if (window.fluidSim && window.fluidSim.canvas && window.fluidSim.isInitialized) {
             window.fluidSim.enabled = true;
             fluidCanvas.classList.remove('hidden');
             if (fluidToggle) fluidToggle.classList.remove('disabled');
             if (mobileFluidToggle) mobileFluidToggle.classList.remove('disabled');
-            console.log('Fluid effect enabled on page load');
+            console.log('Fluid effect enabled and ready');
         } else {
-            // Retry if not yet initialized (max 2 seconds)
+            // Retry if not yet initialized (max 3 seconds, less frequent checks)
             if (!ensureFluidEnabled.attempts) ensureFluidEnabled.attempts = 0;
             ensureFluidEnabled.attempts++;
             
-            if (ensureFluidEnabled.attempts < 40) {
-                setTimeout(ensureFluidEnabled, 50);
+            if (ensureFluidEnabled.attempts < 30) {
+                setTimeout(ensureFluidEnabled, 100);
             } else {
-                console.warn('Fluid simulation failed to initialize after 2 seconds');
+                console.warn('Fluid simulation initialization timeout - may not be visible');
             }
         }
     };
-    ensureFluidEnabled();
+    // Wait a bit before first check to let fluid-sim.js load
+    setTimeout(ensureFluidEnabled, 100);
     
     // Toggle function
     const toggleFluid = () => {
