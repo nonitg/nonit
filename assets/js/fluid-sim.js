@@ -2,34 +2,26 @@
 // Optimized for portfolio overlay use
 
 class FluidSimulation {
-    constructor(canvasId, forceInit = false) {
+    constructor(canvasId) {
+        console.log('[Constructor] Creating FluidSimulation for', canvasId);
         this.canvas = document.getElementById(canvasId);
         if (!this.canvas) {
             console.error(`FluidSimulation: Canvas with id "${canvasId}" not found`);
             return;
         }
         
-        // Don't auto-initialize on mobile unless forced
-        if (this.isMobileDevice() && !forceInit) {
-            this.enabled = false;
-            this.canvas.style.display = 'none';
-            return;
-        }
+        console.log('[Constructor] Canvas found, dimensions:', this.canvas.clientWidth, 'x', this.canvas.clientHeight);
         
         this.enabled = true;
-        
-        // Force canvas visible immediately, bypass CSS transitions
-        this.canvas.style.cssText = 'display: block !important; opacity: 1 !important;';
+        this.canvas.style.display = 'block';
+        this.canvas.style.opacity = '1';
         this.canvas.classList.remove('hidden');
         
+        console.log('[Constructor] Calling init()...');
         this.init();
+        console.log('[Constructor] Init complete');
     }
     
-    isMobileDevice() {
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
-            || window.innerWidth <= 768;
-    }
-
     init() {
         // Optimized config for subtle but visible portfolio overlay
         this.config = {
@@ -64,14 +56,13 @@ class FluidSimulation {
         this.pointers.push(this.createPointer());
 
         const { gl, ext } = this.getWebGLContext();
+        if (!gl) {
+            console.error('Failed to get WebGL context');
+            return;
+        }
         this.gl = gl;
         this.ext = ext;
 
-        // Mobile optimizations
-        if (this.isMobile()) {
-            this.config.DYE_RESOLUTION = 512;
-            this.config.BLOOM_ITERATIONS = 4;
-        }
         if (!ext.supportLinearFiltering) {
             this.config.DYE_RESOLUTION = 512;
             this.config.SHADING = false;
@@ -88,13 +79,38 @@ class FluidSimulation {
         
         this.setupEventListeners();
         
-        // Add initial splats BEFORE starting render loop
-        this.multipleSplats(parseInt(Math.random() * 20) + 5);
+        // Monitor WebGL context loss
+        this.canvas.addEventListener('webglcontextlost', (e) => {
+            console.error('WebGL context lost');
+            e.preventDefault();
+        });
         
-        // Now start rendering
-        this.update();
+        this.canvas.addEventListener('webglcontextrestored', () => {
+            // Rebuild full GPU pipeline on restore
+            this.initShaders();
+            this.resizeCanvas();
+            this.initFramebuffers();
+            this.gl.flush();
+        });
         
-        console.log('✓ Fluid simulation ready and rendering');
+        // Disable mouse splats initially
+        this.allowMouseSplats = false;
+        
+        // Start render loop immediately
+        requestAnimationFrame(() => {
+            console.log('[Init] Starting update loop');
+            this.update();
+            console.log('[Init] ✓✓✓ COMPLETE ✓✓✓');
+            
+            // Enable mouse splats and add initial splats after delay
+            setTimeout(() => {
+                this.allowMouseSplats = true;
+                const splatCount = parseInt(Math.random() * 20) + 5;
+                console.log('[Init] Adding', splatCount, 'initial splats after 0.5s delay');
+                this.multipleSplats(splatCount);
+                console.log('[Init] Mouse splats enabled');
+            }, 500);
+        });
     }
 
     createPointer() {
@@ -113,7 +129,7 @@ class FluidSimulation {
     }
 
     getWebGLContext() {
-        const params = { alpha: true, depth: false, stencil: false, antialias: false, preserveDrawingBuffer: false };
+        const params = { alpha: true, depth: false, stencil: false, antialias: false, preserveDrawingBuffer: false, powerPreference: 'high-performance' };
         
         let gl = this.canvas.getContext('webgl2', params);
         const isWebGL2 = !!gl;
@@ -130,7 +146,7 @@ class FluidSimulation {
             supportLinearFiltering = gl.getExtension('OES_texture_half_float_linear');
         }
 
-        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.clearColor(0.0, 0.0, 0.0, 0.0);
 
         const halfFloatTexType = isWebGL2 ? gl.HALF_FLOAT : halfFloat.HALF_FLOAT_OES;
         let formatRGBA, formatRG, formatR;
@@ -187,9 +203,6 @@ class FluidSimulation {
         return gl.checkFramebufferStatus(gl.FRAMEBUFFER) == gl.FRAMEBUFFER_COMPLETE;
     }
 
-    isMobile() {
-        return /Mobi|Android/i.test(navigator.userAgent);
-    }
 
     initShaders() {
         const gl = this.gl;
@@ -620,6 +633,8 @@ class FluidSimulation {
 
         this.ditheringTexture = this.createTextureFromData();
         this.updateKeywords();
+        
+        console.log('[Init] Shaders ready, activeProgram set:', !!this.displayMaterial.activeProgram);
     }
 
     createMaterial(vertexShader, fragmentShaderSource) {
@@ -668,6 +683,9 @@ class FluidSimulation {
         let program = gl.createProgram();
         gl.attachShader(program, vertexShader);
         gl.attachShader(program, fragmentShader);
+        // Ensure attribute 0 is bound to aPosition across all programs
+        // Fixes intermittent draw issues where browsers assign non-zero locations
+        gl.bindAttribLocation(program, 0, 'aPosition');
         gl.linkProgram(program);
         if (!gl.getProgramParameter(program, gl.LINK_STATUS))
             console.trace(gl.getProgramInfoLog(program));
@@ -766,9 +784,17 @@ class FluidSimulation {
             ? this.createDoubleFBO(simRes.width, simRes.height, rg.internalFormat, rg.format, texType, filtering)
             : this.resizeDoubleFBO(this.velocity, simRes.width, simRes.height, rg.internalFormat, rg.format, texType, filtering);
 
-        this.divergence = this.createFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, gl.NEAREST);
-        this.curl = this.createFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, gl.NEAREST);
-        this.pressure = this.createDoubleFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, gl.NEAREST);
+        this.divergence = this.divergence == null
+            ? this.createFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, gl.NEAREST)
+            : this.resizeFBO(this.divergence, simRes.width, simRes.height, r.internalFormat, r.format, texType, gl.NEAREST);
+            
+        this.curl = this.curl == null
+            ? this.createFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, gl.NEAREST)
+            : this.resizeFBO(this.curl, simRes.width, simRes.height, r.internalFormat, r.format, texType, gl.NEAREST);
+            
+        this.pressure = this.pressure == null
+            ? this.createDoubleFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, gl.NEAREST)
+            : this.resizeDoubleFBO(this.pressure, simRes.width, simRes.height, r.internalFormat, r.format, texType, gl.NEAREST);
 
         this.initBloomFramebuffers();
         this.initSunraysFramebuffers();
@@ -782,16 +808,23 @@ class FluidSimulation {
         const rgba = ext.formatRGBA;
         const filtering = ext.supportLinearFiltering ? gl.LINEAR : gl.NEAREST;
 
-        this.bloom = this.createFBO(res.width, res.height, rgba.internalFormat, rgba.format, texType, filtering);
+        this.bloom = this.bloom == null
+            ? this.createFBO(res.width, res.height, rgba.internalFormat, rgba.format, texType, filtering)
+            : this.resizeFBO(this.bloom, res.width, res.height, rgba.internalFormat, rgba.format, texType, filtering);
 
-        this.bloomFramebuffers = [];
+        if (!this.bloomFramebuffers) this.bloomFramebuffers = [];
+        
+        const newBloomFBOs = [];
         for (let i = 0; i < this.config.BLOOM_ITERATIONS; i++) {
             let width = res.width >> (i + 1);
             let height = res.height >> (i + 1);
             if (width < 2 || height < 2) break;
-            let fbo = this.createFBO(width, height, rgba.internalFormat, rgba.format, texType, filtering);
-            this.bloomFramebuffers.push(fbo);
+            let fbo = this.bloomFramebuffers[i] && this.bloomFramebuffers[i].width === width && this.bloomFramebuffers[i].height === height
+                ? this.bloomFramebuffers[i]
+                : this.createFBO(width, height, rgba.internalFormat, rgba.format, texType, filtering);
+            newBloomFBOs.push(fbo);
         }
+        this.bloomFramebuffers = newBloomFBOs;
     }
 
     initSunraysFramebuffers() {
@@ -802,8 +835,13 @@ class FluidSimulation {
         const r = ext.formatR;
         const filtering = ext.supportLinearFiltering ? gl.LINEAR : gl.NEAREST;
 
-        this.sunrays = this.createFBO(res.width, res.height, r.internalFormat, r.format, texType, filtering);
-        this.sunraysTemp = this.createFBO(res.width, res.height, r.internalFormat, r.format, texType, filtering);
+        this.sunrays = this.sunrays == null
+            ? this.createFBO(res.width, res.height, r.internalFormat, r.format, texType, filtering)
+            : this.resizeFBO(this.sunrays, res.width, res.height, r.internalFormat, r.format, texType, filtering);
+            
+        this.sunraysTemp = this.sunraysTemp == null
+            ? this.createFBO(res.width, res.height, r.internalFormat, r.format, texType, filtering)
+            : this.resizeFBO(this.sunraysTemp, res.width, res.height, r.internalFormat, r.format, texType, filtering);
     }
 
     createFBO(w, h, internalFormat, format, type, param) {
@@ -871,7 +909,7 @@ class FluidSimulation {
     resizeDoubleFBO(target, w, h, internalFormat, format, type, param) {
         if (target.width == w && target.height == h) return target;
         target.read = this.resizeFBO(target.read, w, h, internalFormat, format, type, param);
-        target.write = this.createFBO(w, h, internalFormat, format, type, param);
+        target.write = this.resizeFBO(target.write, w, h, internalFormat, format, type, param);
         target.width = w;
         target.height = h;
         target.texelSizeX = 1.0 / w;
@@ -896,19 +934,36 @@ class FluidSimulation {
     }
 
     update() {
-        requestAnimationFrame(() => this.update());
+        // Always schedule next frame FIRST to prevent loop from stopping
+        const rafId = requestAnimationFrame(() => this.update());
         
         if (!this.enabled) {
+            // Clear the screen when disabled
+            const gl = this.gl;
+            gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+            gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+            gl.clearColor(0, 0, 0, 0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
             return;
         }
 
         const dt = this.calcDeltaTime();
-        if (this.resizeCanvas()) this.initFramebuffers();
+        
+        if (this.resizeCanvas()) {
+            this.initFramebuffers();
+            // No auto-splats on resize
+        }
         
         this.updateColors(dt);
         this.applyInputs();
         if (!this.config.PAUSED) this.step(dt);
         this.render(null);
+        
+        // Check for WebGL errors
+        const error = this.gl.getError();
+        if (error !== this.gl.NO_ERROR) {
+            console.error('WebGL error:', error);
+        }
     }
 
     calcDeltaTime() {
@@ -948,12 +1003,15 @@ class FluidSimulation {
         if (this.splatStack.length > 0)
             this.multipleSplats(this.splatStack.pop());
 
-        this.pointers.forEach(p => {
-            if (p.moved) {
-                p.moved = false;
-                this.splatPointer(p);
-            }
-        });
+        // Only apply mouse splats if enabled (after delay)
+        if (this.allowMouseSplats) {
+            this.pointers.forEach(p => {
+                if (p.moved) {
+                    p.moved = false;
+                    this.splatPointer(p);
+                }
+            });
+        }
     }
 
     step(dt) {
@@ -1055,6 +1113,11 @@ class FluidSimulation {
         let width = target == null ? gl.drawingBufferWidth : target.width;
         let height = target == null ? gl.drawingBufferHeight : target.height;
 
+        if (!this.displayMaterial || !this.displayMaterial.activeProgram) {
+            console.error('Display material not initialized!');
+            return;
+        }
+
         this.displayMaterial.bind();
         if (this.config.SHADING)
             gl.uniform2f(this.displayMaterial.uniforms.texelSize, 1.0 / width, 1.0 / height);
@@ -1152,6 +1215,13 @@ class FluidSimulation {
     multipleSplats(amount) {
         for (let i = 0; i < amount; i++) {
             const color = this.generateColor();
+            
+            // Validate color values
+            if (isNaN(color.r) || isNaN(color.g) || isNaN(color.b)) {
+                console.error('Invalid color generated:', color);
+                continue;
+            }
+            
             color.r *= 6.0;
             color.g *= 6.0;
             color.b *= 6.0;
@@ -1164,6 +1234,12 @@ class FluidSimulation {
     }
 
     splat(x, y, dx, dy, color) {
+        // Validate canvas dimensions to prevent NaN/Infinity
+        if (this.canvas.width <= 0 || this.canvas.height <= 0) {
+            console.error('Cannot splat: invalid canvas dimensions', this.canvas.width, this.canvas.height);
+            return;
+        }
+        
         const gl = this.gl;
         this.splatProgram.bind();
         gl.uniform1i(this.splatProgram.uniforms.uTarget, this.velocity.read.attach(0));
@@ -1370,6 +1446,8 @@ class FluidSimulation {
 
     scaleByPixelRatio(input) {
         let pixelRatio = window.devicePixelRatio || 1;
+        // clamp DPR for stability/perf
+        if (pixelRatio > 2) pixelRatio = 2;
         return Math.floor(input * pixelRatio);
     }
 
@@ -1386,13 +1464,52 @@ class FluidSimulation {
     // Public methods for control
     toggle() {
         this.enabled = !this.enabled;
-        console.log(`Fluid simulation ${this.enabled ? 'enabled' : 'disabled'}`);
         if (this.enabled) {
             this.canvas.style.opacity = '1';
+            // Clear and restart simulation
+            this.clearSimulation();
+            setTimeout(() => {
+                const splatCount = parseInt(Math.random() * 20) + 5;
+                this.multipleSplats(splatCount);
+            }, 100);
         } else {
             this.canvas.style.opacity = '0';
+            // Clear simulation when disabled
+            this.clearSimulation();
         }
         return this.enabled;
+    }
+    
+    clearSimulation() {
+        // Clear all framebuffers to reset simulation
+        const gl = this.gl;
+        
+        // Clear dye buffer
+        gl.bindFramebuffer(gl.FRAMEBUFFER, this.dye.write.fbo);
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        this.dye.swap();
+        gl.bindFramebuffer(gl.FRAMEBUFFER, this.dye.write.fbo);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        this.dye.swap();
+        
+        // Clear velocity buffer
+        gl.bindFramebuffer(gl.FRAMEBUFFER, this.velocity.write.fbo);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        this.velocity.swap();
+        gl.bindFramebuffer(gl.FRAMEBUFFER, this.velocity.write.fbo);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        this.velocity.swap();
+        
+        // Clear pressure buffer
+        gl.bindFramebuffer(gl.FRAMEBUFFER, this.pressure.write.fbo);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        this.pressure.swap();
+        gl.bindFramebuffer(gl.FRAMEBUFFER, this.pressure.write.fbo);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        this.pressure.swap();
+        
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     }
 
     isEnabled() {
@@ -1401,10 +1518,39 @@ class FluidSimulation {
     
 }
 
-// Initialize on window load
+// Wait for canvas dimensions to stabilize before initializing
 window.addEventListener('load', function() {
-    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
-        || window.innerWidth <= 768;
+    const canvas = document.getElementById('fluid-canvas');
+    canvas.style.display = 'block';
+    canvas.style.opacity = '1';
     
-    window.fluidSim = new FluidSimulation('fluid-canvas', !isMobileDevice);
+    let lastWidth = 0;
+    let lastHeight = 0;
+    let stableCount = 0;
+    
+    function checkStable() {
+        const currentWidth = canvas.clientWidth;
+        const currentHeight = canvas.clientHeight;
+        
+        // Check if dimensions are stable for 3 consecutive checks
+        if (currentWidth === lastWidth && currentHeight === lastHeight && currentWidth > 0) {
+            stableCount++;
+            if (stableCount >= 3) {
+                console.log('Canvas dimensions stable:', currentWidth, 'x', currentHeight);
+                console.log('Creating FluidSimulation instance...');
+                window.fluidSim = new FluidSimulation('fluid-canvas');
+                console.log('FluidSimulation created, enabled:', window.fluidSim ? window.fluidSim.enabled : 'FAILED');
+                return; // STOP checking
+            }
+        } else {
+            stableCount = 0;
+        }
+        
+        lastWidth = currentWidth;
+        lastHeight = currentHeight;
+        requestAnimationFrame(checkStable);
+    }
+    
+    console.log('Starting dimension stability check...');
+    requestAnimationFrame(checkStable);
 });

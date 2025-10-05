@@ -2558,6 +2558,7 @@ section {
     opacity: 1;
     transition: opacity 0.3s ease;
     will-change: opacity;
+    transform: translateZ(0);
 }
 
 #fluid-canvas.hidden {
@@ -2569,42 +2570,56 @@ section {
 .fluid-toggle {
     position: fixed;
     top: 20px;
+    /* Position well outside the nav links - in the right margin beyond the header content */
     right: 20px;
     width: 44px;
     height: 44px;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     color: var(--accent);
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     cursor: pointer;
-    z-index: 9999;
+    z-index: 1001;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.1rem;
-    transition: all 0.3s ease;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
     pointer-events: auto;
 }
 
+/* Adjust position when header is scrolled (pill mode) */
+header.scrolled ~ .fluid-toggle {
+    top: 1.25rem;
+    /* Position outside the smaller pill header */
+    right: max(calc((100vw - 600px) / 2 - 60px), 20px);
+}
+
 .fluid-toggle:hover {
-    background: rgba(59, 130, 246, 0.1);
-    border-color: var(--accent);
-    transform: scale(1.05);
-    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.2);
+    background: rgba(59, 130, 246, 0.08);
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
 }
 
 .fluid-toggle:active {
-    transform: scale(0.95);
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.1);
 }
 
 .fluid-toggle.disabled {
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(0, 0, 0, 0.03);
     color: var(--text-lighter);
-    border-color: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+.fluid-toggle.disabled:hover {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .fluid-toggle i {
@@ -2615,26 +2630,62 @@ section {
     transform: rotate(180deg);
 }
 
-/* Tooltip for toggle */
+/* Modern Tooltip */
 .fluid-toggle::before {
     content: attr(data-tooltip);
     position: absolute;
+    top: 50%;
+    transform: translateY(-50%) translateX(-8px);
     right: calc(100% + 12px);
-    background: var(--primary);
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.98));
     color: white;
-    padding: 8px 12px;
+    padding: 10px 14px;
     border-radius: 8px;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-family: var(--font-sans);
+    font-weight: 500;
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
-    box-shadow: var(--shadow-md);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    letter-spacing: 0.01em;
+}
+
+.fluid-toggle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: calc(100% + 6px);
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 0 5px 6px;
+    border-color: transparent transparent transparent rgba(15, 23, 42, 0.98);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .fluid-toggle:hover::before {
     opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+.fluid-toggle:hover::after {
+    opacity: 1;
+}
+
+/* Tablet adjustments for toggle */
+@media (max-width: 1024px) {
+    .fluid-toggle {
+        right: 80px;
+    }
+    
+    header.scrolled ~ .fluid-toggle {
+        right: 80px;
+    }
 }
 
 /* Mobile adjustments for toggle */
@@ -2643,21 +2694,33 @@ section {
         width: 40px;
         height: 40px;
         top: 15px;
-        right: 15px;
+        right: 70px;
         font-size: 1rem;
     }
     
-    .fluid-toggle::before {
-        display: none;
+    header.scrolled ~ .fluid-toggle {
+        right: 70px;
+        top: 15px;
     }
     
-    /* Hide fluid canvas on mobile for better performance */
-    #fluid-canvas {
+    .fluid-toggle::before,
+    .fluid-toggle::after {
         display: none;
     }
-    
+}
+
+/* Small mobile adjustments */
+@media (max-width: 480px) {
     .fluid-toggle {
-        display: none;
+        width: 38px;
+        height: 38px;
+        top: 13px;
+        right: 65px;
+    }
+    
+    header.scrolled ~ .fluid-toggle {
+        right: 65px;
+        top: 13px;
     }
 }
 
