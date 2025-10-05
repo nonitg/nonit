@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const burger = document.querySelector('.burger');
     const nav = document.querySelector('.nav-links');
     const navLinks = document.querySelectorAll('.nav-links li');
-    console.log("Click the fluid toggle button 4 times :)")
+    
     // Toggle menu
     if (burger) {
         burger.addEventListener('click', () => {
