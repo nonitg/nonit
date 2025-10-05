@@ -3,23 +3,18 @@
 
 class FluidSimulation {
     constructor(canvasId) {
-        console.log('[Constructor] Creating FluidSimulation for', canvasId);
         this.canvas = document.getElementById(canvasId);
         if (!this.canvas) {
             console.error(`FluidSimulation: Canvas with id "${canvasId}" not found`);
             return;
         }
         
-        console.log('[Constructor] Canvas found, dimensions:', this.canvas.clientWidth, 'x', this.canvas.clientHeight);
-        
         this.enabled = true;
         this.canvas.style.display = 'block';
         this.canvas.style.opacity = '1';
         this.canvas.classList.remove('hidden');
         
-        console.log('[Constructor] Calling init()...');
         this.init();
-        console.log('[Constructor] Init complete');
     }
     
     init() {
@@ -62,7 +57,7 @@ class FluidSimulation {
         }
         this.gl = gl;
         this.ext = ext;
-
+        console.log("Press the toggle fluid button 4 times to experience insane satisfaction ;)");
         if (!ext.supportLinearFiltering) {
             this.config.DYE_RESOLUTION = 512;
             this.config.SHADING = false;
@@ -98,17 +93,13 @@ class FluidSimulation {
         
         // Start render loop immediately
         requestAnimationFrame(() => {
-            console.log('[Init] Starting update loop');
             this.update();
-            console.log('[Init] ✓✓✓ COMPLETE ✓✓✓');
             
             // Enable mouse splats and add initial splats after delay
             setTimeout(() => {
                 this.allowMouseSplats = true;
                 const splatCount = parseInt(Math.random() * 20) + 5;
-                console.log('[Init] Adding', splatCount, 'initial splats after 0.5s delay');
                 this.multipleSplats(splatCount);
-                console.log('[Init] Mouse splats enabled');
             }, 500);
         });
     }
@@ -633,8 +624,6 @@ class FluidSimulation {
 
         this.ditheringTexture = this.createTextureFromData();
         this.updateKeywords();
-        
-        console.log('[Init] Shaders ready, activeProgram set:', !!this.displayMaterial.activeProgram);
     }
 
     createMaterial(vertexShader, fragmentShaderSource) {
@@ -1536,10 +1525,7 @@ window.addEventListener('load', function() {
         if (currentWidth === lastWidth && currentHeight === lastHeight && currentWidth > 0) {
             stableCount++;
             if (stableCount >= 3) {
-                console.log('Canvas dimensions stable:', currentWidth, 'x', currentHeight);
-                console.log('Creating FluidSimulation instance...');
                 window.fluidSim = new FluidSimulation('fluid-canvas');
-                console.log('FluidSimulation created, enabled:', window.fluidSim ? window.fluidSim.enabled : 'FAILED');
                 return; // STOP checking
             }
         } else {
@@ -1551,6 +1537,5 @@ window.addEventListener('load', function() {
         requestAnimationFrame(checkStable);
     }
     
-    console.log('Starting dimension stability check...');
     requestAnimationFrame(checkStable);
 });
