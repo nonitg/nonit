@@ -1,613 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nonit Gupta | AI Engineer & Researcher</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>N</text></svg>">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nonit Gupta</title>
+<meta name="description" content="Nonit Gupta">
+<style>
+  :root {
+    --bg: #fbfbfa;
+    --fg: #1a1a1a;
+    --muted: #6b6b6b;
+    --line: #e4e4e0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #111; --fg: #e8e8e6; --muted: #8a8a8a; --line: #2a2a2a; }
+  }
+  * { box-sizing: border-box; }
+  html { font-size: 17px; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  main {
+    max-width: 34rem;
+    margin: 0 auto;
+    padding: 6rem 1.25rem 5rem;
+  }
+  h1 { font-size: 1rem; font-weight: 500; margin: 0 0 2rem; }
+  p { margin: 0 0 1.25rem; }
+  ul { list-style: none; padding: 0; margin: 0 0 2.5rem; }
+  li { padding: 0.6rem 0; border-top: 1px solid var(--line); }
+  li:last-child { border-bottom: 1px solid var(--line); }
+  li span { color: var(--muted); }
+  a { color: inherit; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+  a:hover { text-decoration-color: var(--fg); }
+  .muted { color: var(--muted); }
+  footer { color: var(--muted); font-size: 0.9rem; }
+  footer a + a { margin-left: 1rem; }
+</style>
 </head>
 <body>
-    <!-- Fluid Simulation Canvas -->
-    <canvas id="fluid-canvas"></canvas>
-    
-    <!-- Fluid Toggle Button -->
-    <button class="fluid-toggle" id="fluid-toggle" data-tooltip="Toggle Fluid Effect" aria-label="Toggle fluid effect">
-        <i class="fas fa-magic"></i>
-    </button>
+<main>
+  <h1>Nonit Gupta</h1>
 
-    <!-- Fluid Playground (Easter Egg) -->
-    <div id="fluid-playground" class="fluid-playground">
-        <button class="playground-close" onclick="closeFluidPlayground()" aria-label="Close playground">
-            <i class="fas fa-times"></i>
-        </button>
-        
-        <canvas id="playground-canvas"></canvas>
-        
-        <div class="playground-controls" id="playground-controls">
-            <div class="controls-header">
-                <h3>Controls</h3>
-                <button class="controls-minimize" id="controls-minimize" aria-label="Minimize controls">
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-            </div>
-            
-            <div class="controls-content" id="controls-content">
-                <div class="control-group">
-                    <label for="color-intensity">Brightness</label>
-                    <input type="range" id="color-intensity" min="1" max="20" value="7" step="1">
-                </div>
-                
-                <div class="control-group">
-                    <label for="swirl-amount">Swirl</label>
-                    <input type="range" id="swirl-amount" min="0" max="50" value="25" step="1">
-                </div>
-                
-                <div class="control-group">
-                    <label for="fade-speed">Fade</label>
-                    <input type="range" id="fade-speed" min="90" max="99" value="96" step="1">
-                </div>
-                
-                <div class="control-group">
-                    <label for="splat-size">Size</label>
-                    <input type="range" id="splat-size" min="5" max="50" value="18" step="1">
-                </div>
-                
-                <button class="playground-reset" id="playground-reset">
-                    <i class="fas fa-redo"></i> Reset
-                </button>
-            </div>
-        </div>
-    </div>
+  <p>I build software, mostly around health and machine learning. Currently at the University of Waterloo.</p>
 
-    <header>
-        <nav>
-            <div class="logo">NG</div>
-            <ul class="nav-links">
-                <li><a href="#work">Work</a></li>
-                <!-- <li><a href="#impact">Impact</a></li> -->
-                <li><a href="#recognition">Recognition</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li class="mobile-fluid-toggle-item">
-                    <button class="mobile-fluid-toggle" id="mobile-fluid-toggle">
-                        <i class="fas fa-magic"></i>
-                        <span>Toggle Fluid Effect</span>
-                    </button>
-                </li>
-            </ul>
-            <div class="burger">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-            </div>
-        </nav>
-    </header>
+  <p class="muted">Some things I've worked on</p>
+  <ul>
+    <li>Cortico Health <span>· AI tools used by clinics across Canada</span></li>
+    <li><a href="https://partner.projectboard.world/ysc/project/early-voices-of-parkinsons-machine-learning-for-optimal-early-parkinsons-detection">Early Voices of Parkinson's</a> <span>· detecting Parkinson's from a short voice sample</span></li>
+    <li><a href="https://www.bcstem.ca">BC STEM Opportunities</a> <span>· helping students in BC find competitions and scholarships</span></li>
+    <li><a href="https://nonit-to-do.web.app">Tock</a> <span>· a task manager I made because I didn't like the paid ones</span></li>
+  </ul>
 
-    <main>
-        <!-- Hero -->
-        <section id="hero">
-            <div class="hero-content">
-                <div class="hero-left">
-                    <h1>Nonit Gupta</h1>
-                    <h2>Software Engineer & Researcher</h2>
-                    <div class="hero-stats">
-                        <div class="stat">
-                            <div class="stat-number">2,500+</div>
-                            <div class="stat-label"><span class="mobile-text">Clinics</span><span class="desktop-text">Clinics Using My Systems</span></div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">5,000+</div>
-                            <div class="stat-label"><span class="mobile-text">Students</span><span class="desktop-text">Students Reached</span></div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">Top 0.2%</div>
-                            <div class="stat-label">Nationally</div>
-                        </div>
-                    </div>
-                    <div class="hero-btns">
-                        <a href="#work" class="btn primary">View Work</a>
-                        <a href="#contact" class="btn secondary">Contact</a>
-                    </div>
-                </div>
-                
-                <div class="hero-right">
-                    <div class="hero-visual">
-                        <div class="gradient-orb"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Quick Intro -->
-        <section id="intro">
-            <div class="intro-content">
-                <p class="intro-text">
-                    <span class="desktop-text"><strong>AI Software Developer</strong> at Cortico Health Technologies, building production ML systems deployed to 2,500+ clinics across Canada. Award-winning researcher whose Parkinson's detection AI <strong>surpassed published scientific benchmarks</strong>. Founder of BC STEM Opportunities serving 4,500+ students.</span>
-                    <span class="mobile-text"><strong>AI Developer</strong> at Cortico Health, building ML systems for 2,500+ clinics. Award-winning researcher with Parkinson's detection AI that <strong>surpassed scientific benchmarks</strong>. Founded BC STEM serving 4,500+ students.</span>
-                </p>
-            </div>
-        </section>
-
-        <!-- Featured Work -->
-        <section id="work">
-            <div class="section-header">
-                <h2>Featured Work</h2>
-                <div class="section-line"></div>
-            </div>
-            
-            <div class="work-grid">
-                <!-- Cortico -->
-                <div class="work-item featured">
-                    <div class="work-header">
-                        <div class="work-header-content">
-                            <div class="work-tag">Healthcare AI • AI Software Developer</div>
-                            <h3>Production AI Systems for Clinical Workflows</h3>
-                            <p class="work-company">Cortico Health Technologies • Sept 2024 - Present</p>
-                        </div>
-                        <img src="assets/images/cortico.jpg" alt="Cortico Health" class="work-logo">
-                    </div>
-                    <p class="work-description">
-                        <span class="desc-full">Led development of AI tools now deployed to 2,500+ clinics across Canada. Built custom LLM trained on 3M+ PubMed articles for medical content generation, RAG-based guidelines lookup tool, and AI scribe for automated EMR documentation. Showcased at Family Medicine Forum with strong physician feedback nationwide.</span>
-                        <span class="desc-mobile">Built AI tools deployed to 2,500+ clinics across Canada. Custom LLM trained on 3M+ PubMed articles, RAG-based guidelines tool, and AI scribe for automated EMR documentation.</span>
-                    </p>
-                    
-                    <div class="work-impact">
-                        <div class="impact-item">
-                            <strong>2,500+</strong> clinics using systems I built
-                        </div>
-                        <div class="impact-item">
-                            <strong>3M+</strong> medical articles processed
-                        </div>
-                        <div class="impact-item">
-                            <strong>Showcased</strong> at national Family Medicine Forum
-                        </div>
-                    </div>
-                    
-                    <div class="work-tech">
-                        <span class="tech-badge">PyTorch</span>
-                        <span class="tech-badge">LLMs</span>
-                        <span class="tech-badge">RAG</span>
-                        <span class="tech-badge">Vector DB</span>
-                        <span class="tech-badge">FastAPI</span>
-                        <span class="tech-badge">React, Preact</span>
-                        <span class="tech-badge">Django</span>
-                        <span class="tech-badge">nginx, Docker, CI/CD, Git</span>
-                        <span class="tech-badge">Hugging Face, OpenAI</span>
-                        <span class="tech-badge">AWS, GCP, Azure</span>
-                    </div>
-                </div>
-
-                <!-- Parkinson's Research -->
-                <div class="work-item featured">
-                    <div class="work-tag">Research • Award-Winning</div>
-                    <h3>Early Parkinson's Detection via Voice AI</h3>
-                    <p class="work-company">Independent Research • 2024-2025</p>
-                    <p class="work-description">
-                        <span class="desc-full">Novel AI system detecting Parkinson's disease from voice patterns in less than five seconds, years before clinical symptoms appear. Built hybrid model combining traditional ML and deep learning on spectrograms. <strong>Achieved 98.3% accuracy surpassing published scientific benchmarks as of early 2025</strong> with zero false positives—a 20% improvement over prior research.</span>
-                        <span class="desc-mobile">AI system detecting Parkinson's disease from voice in less than five seconds. Hybrid model with <strong>98.3% accuracy surpassing published scientific benchmarks</strong>, with zero false positives.</span>
-                    </p>
-                    
-                    <div class="work-impact">
-                        <div class="impact-item">
-                            <strong>Surpasses</strong> published scientific benchmarks
-                        </div>
-                        <div class="impact-item">
-                            <strong>CWSF Bronze</strong> Top 0.2% nationally
-                        </div>
-                        <div class="impact-item">
-                            <strong>$6,000+</strong> in awards & scholarships
-                        </div>
-                    </div>
-                    
-                    <div class="work-tech">
-                        <span class="tech-badge">TensorFlow</span>
-                        <span class="tech-badge">EfficientNet</span>
-                        <span class="tech-badge">XGBoost</span>
-                        <span class="tech-badge">Signal Processing</span>
-                        <span class="tech-badge">MLflow</span>
-                        <span class="tech-badge">CNN's & Spectograms</span>
-                        <span class="tech-badge">Pytorch</span>
-                        <span class="tech-badge">Hugging Face</span>
-                        <span class="tech-badge">AWS</span>
-                    </div>
-                    
-                    <div class="work-links">
-                        <a href="https://partner.projectboard.world/ysc/project/early-voices-of-parkinsons-machine-learning-for-optimal-early-parkinsons-detection" target="_blank" class="work-link">View Project <i class="fas fa-external-link-alt"></i></a>
-                    </div>
-                </div>
-
-                <!-- BC STEM -->
-                <div class="work-item featured">
-                    <div class="work-header">
-                        <div class="work-header-content">
-                            <div class="work-tag">Community Impact • Nonprofit</div>
-                            <h3>BC STEM Opportunities</h3>
-                            <p class="work-company">Founder & Developer • Feb 2025 - Present</p>
-                        </div>
-                        <img src="assets/images/logo.png" alt="BC STEM Opportunities" class="work-logo">
-                    </div>
-                    <p class="work-description">
-                        <span class="desc-full">Founded bcstem.ca, a centralized platform helping students across BC discover competitions, research opportunities, and scholarships. Recognized as Top 30 impact nonprofit in Canada. Partnered with organizations across Canada.</span>
-                        <span class="desc-mobile">Centralized platform helping BC students discover competitions, research opportunities, and scholarships. Top 30 impact nonprofit in Canada.</span>
-                    </p>
-                    
-                    <div class="work-impact">
-                        <div class="impact-item">
-                            <strong>5,000+</strong> active users, 25K+ views
-                        </div>
-                        <div class="impact-item">
-                            <strong>Top 30</strong> nonprofits in Canada
-                        </div>
-                        <div class="impact-item">
-                            <strong>iOS app</strong> live + partnerships nationally
-                        </div>
-                    </div>
-                    
-                    <div class="work-links">
-                        <a href="https://www.bcstem.ca" target="_blank" class="work-link">Visit Platform <i class="fas fa-external-link-alt"></i></a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Additional Projects -->
-        <section id="other-projects">
-            <div class="section-header">
-                <h2>Additional Projects</h2>
-                <div class="section-line"></div>
-            </div>
-            
-            <div class="other-projects-grid">
-                <div class="small-project">
-                    <div class="project-header">
-                        <h3>PocketDoc Healthcare App</h3>
-                        <div class="project-tag">Full-Stack Mobile</div>
-                    </div>
-                    <p>Mobile diagnostic app with custom ML models. Reduced costs from $10k/month to $0.04 per session, leading to Cortico internship.</p>
-                    <div class="project-tech-inline">
-                        <span>Flutter</span>
-                        <span>Firebase</span>
-                        <span>ML Models</span>
-                        <span>Dart</span>
-                    </div>
-                </div>
-
-                <div class="small-project">
-                    <div class="project-header">
-                        <h3>Tock Task Manager</h3>
-                        <div class="project-tag">Full-Stack App</div>
-                    </div>
-                    <p>I got tired of subscription productivity apps, they sucked... so I built my own from scratch.</p>
-                    <div class="project-tech-inline">
-                        <span>Flutter</span>
-                        <span>SQL and Supabase</span>
-                        <span>Dart</span>
-                        <span>UI/UX</span>
-                    </div>
-                    <a href="https://nonit-to-do.web.app" target="_blank" class="project-link-small">View Live <i class="fas fa-external-link-alt"></i></a>
-                </div>
-
-                <div class="small-project">
-                    <div class="project-header">
-                        <h3>Geography Data Dashboard</h3>
-                        <div class="project-tag">Data Science</div>
-                    </div>
-                    <p>A statistical analysis dashboard created using python and numpy. Excel was slow and I like being efficient so I made this.</p>
-                    <div class="project-tech-inline">
-                        <span>Python</span>
-                        <span>Pandas, Seaborn, Flask</span>
-                        <span></span>
-                    </div>
-                    <a href="https://nonitg.github.io/data-dash/" target="_blank" class="project-link-small">View Live <i class="fas fa-external-link-alt"></i></a>
-                </div>
-            </div>
-        </section>
-
-        
-
-        <!-- Recognition -->
-        <section id="recognition">
-            <div class="section-header">
-                <h2>Recognition & Awards</h2>
-                <div class="section-line"></div>
-            </div>
-            
-            <!-- Major Awards -->
-            <div class="major-awards">
-                <div class="major-award-card">
-                    <img src="assets/images/cwsf.png" alt="CWSF" class="award-logo">
-                    <div class="award-badge">National</div>
-                    <h3>Canada-Wide Science Fair (CWSF)</h3>
-                    <p class="award-result">Bronze Medal • Top 0.2% Nationally</p>
-                    <p class="award-details">Selected from 25,000+ projects across Canada • ~$5,000 in scholarships</p>
-                </div>
-                
-                <div class="major-award-card">
-                    <img src="assets/images/RHF-ingenious-en-colour-3.png" alt="Ingenious+" class="award-logo">
-                    <div class="award-badge">National</div>
-                    <h3>Ingenious+ Award</h3>
-                    <p class="award-result">$1,000 Grant • Top 200 in Canada</p>
-                    <p class="award-details">Invited to Victoria's Government House • Presented by BC Lieutenant Governor</p>
-                </div>
-                
-                <div class="major-award-card">
-                    <img src="assets/images/youth impact challenge.png" alt="Youth Impact Challenge" class="award-logo">
-                    <div class="award-badge">National</div>
-                    <h3>Youth Impact Challenge</h3>
-                    <p class="award-result">Top 30 Impact Nonprofits in Canada</p>
-                    <p class="award-details">$1,000 grant for BC STEM Opportunities</p>
-                </div>
-            </div>
-            
-            <!-- Other Awards by Category -->
-            <div class="awards-by-category">
-                <div class="category-awards-section">
-                    <div class="category-header">
-                        <div class="category-icon"><i class="fas fa-flask"></i></div>
-                        <h3>Research & Science Competitions</h3>
-                    </div>
-                    <div class="awards-list-enhanced">
-                        <div class="award-item-enhanced">
-                            <h4>Fraser Valley Regional Science Fair</h4>
-                            <p>Gold Ribbon • Pat Tracey Innovation Award • UFV Dean of Science Award</p>
-                        </div>
-                        <div class="award-item-enhanced">
-                            <h4>BC Chemistry Olympiad</h4>
-                            <p>Special Merit Award • Provincial Recognition</p>
-                        </div>
-                        <div class="award-item-enhanced">
-                            <h4>KPU Science Challenge</h4>
-                            <p>3rd Place • 100+ participants provincewide</p>
-                        </div>
-                        <div class="award-item-enhanced">
-                            <h4>CEMC Mathematics Competitions</h4>
-                            <p>Cayley Certificate of Distinction (Top 25%) • Multiple contest distinctions</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="category-awards-section">
-                    <div class="category-header">
-                        <div class="category-icon"><i class="fas fa-comments"></i></div>
-                        <h3>Debate & Model UN</h3>
-                    </div>
-                    <div class="awards-list-enhanced">
-                        <div class="award-item-enhanced">
-                            <h4>CAIMUN Best Delegate</h4>
-                            <p>1st Place Overall • UNODC Committee • Representing Nigeria</p>
-                        </div>
-                        <div class="award-item-enhanced">
-                            <h4>CAHSMUN Outstanding Delegate</h4>
-                            <p>WHO Committee • Representing Central African Republic</p>
-                        </div>
-                        <div class="award-item-enhanced">
-                            <h4>Lower Mainland Debate Regionals</h4>
-                            <p>3rd Place Team & 3rd Place Speaker • Senior Division 2025</p>
-                        </div>
-                        <div class="award-item-enhanced">
-                            <h4>USeattle Debate & Speaking Tournament</h4>
-                            <p>2nd Place Team & Speaker (Public Forum) • 2nd Place Speech (Public Speaking)</p>
-                        </div>
-                        <div class="award-item-enhanced">
-                            <h4>LM South Debate Regionals</h4>
-                            <p>3rd Place Junior Team • Provincial Competition</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Core Impact
-        <section id="impact">
-            <div class="section-header">
-                <h2>Core Impact</h2>
-                <div class="section-line"></div>
-            </div>
-            
-            <div class="impact-grid">
-                <div class="impact-card">
-                    <div class="impact-icon"><i class="fas fa-hospital"></i></div>
-                    <h3>Healthcare Innovation</h3>
-                    <p>Building AI systems that directly improve clinical workflows and patient outcomes across 2,000+ clinics in Canada. Focused on making healthcare more accessible and efficient through intelligent automation.</p>
-                </div>
-                
-                <div class="impact-card">
-                    <div class="impact-icon"><i class="fas fa-microscope"></i></div>
-                    <h3>Biomedical Research</h3>
-                    <p>Developing novel ML approaches for early disease detection. Award-winning research with real-world applications, achieving performance metrics that exceed traditional diagnostic methods.</p>
-                </div>
-                
-                <div class="impact-card">
-                    <div class="impact-icon"><i class="fas fa-users"></i></div>
-                    <h3>STEM Education Access</h3>
-                    <p>Founded platforms and organizations reaching 4,500+ students across British Columbia. Breaking down barriers to STEM education through technology and community-driven initiatives.</p>
-                </div>
-            </div>
-        </section> -->
-        <!-- Skills
-        <section id="skills">
-            <div class="section-header">
-                <h2>Technical Expertise</h2>
-                <div class="section-line"></div>
-            </div>
-            
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3>AI & Machine Learning</h3>
-                    <div class="skill-items">
-                        <span>PyTorch</span>
-                        <span>TensorFlow</span>
-                        <span>Keras</span>
-                        <span>Hugging Face</span>
-                        <span>LLM Fine-tuning</span>
-                        <span>RAG Systems</span>
-                        <span>Vector Databases</span>
-                        <span>Embeddings</span>
-                        <span>XGBoost</span>
-                        <span>Random Forest</span>
-                        <span>Neural Networks</span>
-                        <span>Transfer Learning</span>
-                        <span>MLflow</span>
-                        <span>DVC</span>
-                        <span>SMOTE</span>
-                        <span>Data Augmentation</span>
-                    </div>
-                </div>
-                
-                <div class="skill-category">
-                    <h3>Development & Programming</h3>
-                    <div class="skill-items">
-                        <span>Python</span>
-                        <span>FastAPI</span>
-                        <span>Flask</span>
-                        <span>Flutter/Dart</span>
-                        <span>JavaScript</span>
-                        <span>React</span>
-                        <span>Node.js</span>
-                        <span>HTML/CSS</span>
-                        <span>Git/GitHub</span>
-                        <span>RESTful APIs</span>
-                        <span>Web Scraping</span>
-                        <span>Pandas</span>
-                        <span>NumPy</span>
-                        <span>scikit-learn</span>
-                    </div>
-                </div>
-                
-                <div class="skill-category">
-                    <h3>Cloud & Infrastructure</h3>
-                    <div class="skill-items">
-                        <span>Google Cloud Platform</span>
-                        <span>Cloud Functions</span>
-                        <span>AWS S3</span>
-                        <span>Azure</span>
-                        <span>Firebase</span>
-                        <span>Docker</span>
-                        <span>CI/CD</span>
-                        <span>GitHub Actions</span>
-                    </div>
-                </div>
-                
-                <div class="skill-category">
-                    <h3>Data Science & Research</h3>
-                    <div class="skill-items">
-                        <span>Experimental Design</span>
-                        <span>Statistical Analysis</span>
-                        <span>Signal Processing</span>
-                        <span>Praat</span>
-                        <span>librosa</span>
-                        <span>Feature Engineering</span>
-                        <span>Data Visualization</span>
-                        <span>Scientific Writing</span>
-                        <span>LaTeX</span>
-                        <span>Jupyter</span>
-                    </div>
-                </div>
-                
-                <div class="skill-category">
-                    <h3>Healthcare & Biomedical</h3>
-                    <div class="skill-items">
-                        <span>EMR Integration</span>
-                        <span>HIPAA Compliance</span>
-                        <span>Medical NLP</span>
-                        <span>PubMed Research</span>
-                        <span>Clinical Workflows</span>
-                        <span>Healthcare Standards</span>
-                    </div>
-                </div>
-                
-                <div class="skill-category">
-                    <h3>Mobile & Full-Stack</h3>
-                    <div class="skill-items">
-                        <span>Flutter</span>
-                        <span>iOS Development</span>
-                        <span>Cross-platform Apps</span>
-                        <span>Firebase Auth</span>
-                        <span>Database Design</span>
-                        <span>UI/UX Design</span>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-
-        <!-- Leadership & Community -->
-        <section id="leadership">
-            <div class="section-header">
-                <h2>Leadership & Teaching</h2>
-                <div class="section-line"></div>
-            </div>
-            
-            <div class="leadership-grid">
-                <div class="leadership-card">
-                    <div class="leadership-icon">
-                        <i class="fas fa-users-cog"></i>
-                    </div>
-                    <div class="leadership-card-content">
-                        <h3>Vice President, Debate Club</h3>
-                        <p class="leadership-role">2021 - Present • Led team to multiple top-3 finishes at provincial/international competitions</p>
-                    </div>
-                </div>
-
-                <div class="leadership-card">
-                    <div class="leadership-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <div class="leadership-card-content">
-                        <h3>Co-Founder, Engineering Club</h3>
-                        <p class="leadership-role">2021 - Present • Leading hands-on STEM projects, teaching 3D design, programming, and electronics</p>
-                    </div>
-                </div>
-
-                <div class="leadership-card">
-                    <div class="leadership-icon">
-                        <i class="fas fa-chalkboard-teacher"></i>
-                    </div>
-                    <div class="leadership-card-content">
-                        <h3>Programming & STEM Instructor</h3>
-                        <p class="leadership-role">2022 - Present • Taught Python & Data Science to 150+ students (Zocco Coding Society) + Math/Reading instruction (Kumon)</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact -->
-        <section id="contact">
-            <div class="section-header">
-                <h2>Get in Touch</h2>
-                <div class="section-line"></div>
-            </div>
-            <div class="contact-content">
-                <p class="contact-intro">Open to opportunities in AI/ML engineering, healthcare tech, and research collaborations.</p>
-                <p class="contact-email-text">Email: <a href="mailto:guptanonit12@gmail.com">guptanonit12@gmail.com</a></p>
-                <div class="contact-links">
-                    <a href="mailto:guptanonit12@gmail.com" class="contact-link">
-                        <i class="fas fa-envelope"></i>
-                        <span>Email Me</span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/nonitg/" target="_blank" class="contact-link">
-                        <i class="fab fa-linkedin"></i>
-                        <span>LinkedIn</span>
-                    </a>
-                    <a href="https://github.com/nonitg" target="_blank" class="contact-link">
-                        <i class="fab fa-github"></i>
-                        <span>GitHub</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2025 Nonit Gupta. I like building stuff.</p>
-        </div>
-    </footer>
-
-    <script src="assets/js/fluid-sim.js"></script>
-    <script src="assets/js/main.js"></script>
+  <footer>
+    <a href="mailto:n98gupta@uwaterloo.ca">n98gupta@uwaterloo.ca</a>
+    <a href="https://github.com/nonitg">GitHub</a>
+    <a href="https://www.linkedin.com/in/nonitg/">LinkedIn</a>
+  </footer>
+</main>
 </body>
 </html>
